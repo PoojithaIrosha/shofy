@@ -1,5 +1,6 @@
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.cart.Cart"/>
 
 <layout:extends name="base">
@@ -54,7 +55,8 @@
                                         <td class="tp-cart-title"><a
                                                 href="${BASE_URL}products/${item.id}">${item.product.name}</a></td>
                                         <!-- price -->
-                                        <td class="tp-cart-price"><span>${item.quantity * item.product.price}</span>
+                                        <fmt:formatNumber var="price" value="${item.quantity * item.product.price}" type="currency"/>
+                                        <td class="tp-cart-price"><span>${price}</span>
                                         </td>
                                         <!-- quantity -->
                                         <td class="tp-cart-quantity">
@@ -128,7 +130,8 @@
                         <div class="tp-cart-checkout-wrapper">
                             <div class="tp-cart-checkout-top d-flex align-items-center justify-content-between">
                                 <span class="tp-cart-checkout-top-title">Subtotal</span>
-                                <span class="tp-cart-checkout-top-price">${it.total}</span>
+                                <fmt:formatNumber var="total" value="${it.total}" type="currency"/>
+                                <span class="tp-cart-checkout-top-price">${total}</span>
                             </div>
                             <div class="tp-cart-checkout-shipping">
                                 <h4 class="tp-cart-checkout-shipping-title">Shipping</h4>

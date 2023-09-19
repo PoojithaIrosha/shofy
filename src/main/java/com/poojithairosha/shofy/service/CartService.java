@@ -41,6 +41,7 @@ public class CartService {
 
                     CartItem cartItem = new CartItem(product, quantity, cart);
                     cart.setCartItems(List.of(cartItem));
+                    cart.setTotal(cartItem.getProduct().getPrice() * cartItem.getQuantity());
 
                     session.persist(cart);
                 } else {
@@ -65,6 +66,8 @@ public class CartService {
                             throw new CustomException(Response.Status.BAD_REQUEST, "Product quantity is low. Can't purchase " + quantity + " of " + product.getName() + " at the moment");
                         }
                     }
+
+                    cart.setTotal(cart.getTotal() + (product.getPrice() * quantity));
 
                     session.merge(cart);
                 }
@@ -113,6 +116,7 @@ public class CartService {
             if (cart != null) {
                 cart.getCartItems().stream().filter(cartItem -> cartItem.getId() == cartItemId).findFirst().ifPresent(cartItem -> {
                     cart.getCartItems().remove(cartItem);
+                    cart.setTotal(cart.getTotal() - (cartItem.getProduct().getPrice() * cartItem.getQuantity()));
                     session.remove(cartItem);
                 });
                 session.merge(cart);
@@ -135,7 +139,17 @@ public class CartService {
 
             if(cartItem != null) {
                 session.beginTransaction();
+
+                Integer oldQty = cartItem.getQuantity();
+
+                if(oldQty > qty) {
+                    cartItem.getCart().setTotal(cartItem.getCart().getTotal() - (cartItem.getProduct().getPrice() * (oldQty - qty)));
+                }else {
+                    cartItem.getCart().setTotal(cartItem.getCart().getTotal() + (cartItem.getProduct().getPrice() * (qty - oldQty)));
+                }
+
                 cartItem.setQuantity(qty);
+
                 session.merge(cartItem);
                 session.getTransaction().commit();
                 return "success";

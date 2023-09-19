@@ -1,5 +1,6 @@
 <%@taglib prefix="layoyt" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.product.Product"/>
 
 <layoyt:extends name="base">
@@ -97,8 +98,12 @@
 
                                 <!-- price -->
                                 <div class="tp-product-details-price-wrapper mb-20">
-                                    <span class="tp-product-details-price old-price">Rs.${it.price - (it.price * 100) / 10}</span>
-                                    <span class="tp-product-details-price new-price">Rs.${it.price}</span>
+                                    <fmt:formatNumber value="${it.price - (it.price * 100) / 10}" type="currency"
+                                                      var="oldPrice"/>
+                                    <fmt:formatNumber value="${it.price}" type="currency"
+                                                      var="newPrice"/>
+                                    <span class="tp-product-details-price old-price">${oldPrice}</span>
+                                    <span class="tp-product-details-price new-price">${newPrice}</span>
                                 </div>
 
                                 <!-- variations -->
@@ -145,7 +150,7 @@
                                         </div>
                                         <div class="tp-product-details-add-to-cart mb-15 w-100">
                                             <button class="tp-product-details-add-to-cart-btn w-100"
-                                                    onclick="addToCart('${it.id}')">Add To Cart
+                                                    onclick="addToCartPD('${it.id}')">Add To Cart
                                             </button>
                                         </div>
                                     </div>
@@ -170,7 +175,7 @@
                                         </svg>
                                         Compare
                                     </button>
-                                    <button type="button" class="tp-product-details-action-sm-btn">
+                                    <button type="button" class="tp-product-details-action-sm-btn" onclick="addToWishlist('${it.id}');">
                                         <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"

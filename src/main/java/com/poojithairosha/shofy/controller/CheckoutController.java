@@ -14,6 +14,4 @@ public class CheckoutController {
         return new Viewable("/frontend/checkout");
     }
 
-
-
 }

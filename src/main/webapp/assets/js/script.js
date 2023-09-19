@@ -234,7 +234,7 @@ function updatePassword(email) {
 /* ====================
    Add To Cart
    ==================== */
-function addToCart(productId) {
+function addToCartPD(productId) {
     const user = localStorage.getItem("user");
     const qty = document.getElementById(`qty-${productId}`).value;
 
@@ -522,6 +522,9 @@ function updateQty(itemId, qty) {
     }).then(data => {
         if(data === "success") {
             showToast("Product quantity updated", "Succcess");
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         }else {
             showToast("Something went wrong. Please try again", "Error");
         }
@@ -532,3 +535,61 @@ function updateQty(itemId, qty) {
     })
 }
 
+
+/* ====================
+   Add product to wishlist
+   ==================== */
+function addToWishlist(productId) {
+    const user = localStorage.getItem("user");
+
+    if (user != null) {
+        const form = new FormData();
+        form.append("product_id", productId);
+
+        fetch(`${BASE_URL}user/wishlist/add`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${JSON.parse(user).accessToken}`,
+            },
+            body: form,
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.text();
+            } else {
+                return Promise.reject(resp);
+            }
+        }).then(data => {
+            showToast(data, "Success");
+        }).catch(error => {
+            error.text().then((err) => {
+                showToast(err, "Error");
+            });
+        });
+    } else {
+        showToast("Please login to add products to wishlist", "Error");
+    }
+}
+
+/* ====================
+   Remove product from wishlist
+   ==================== */
+function removeFromWishlist(wishlistId, wishlistItemId) {
+    fetch(`${BASE_URL}user/wishlist/remove/${wishlistId}/${wishlistItemId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
+        }
+    }).then(resp => {
+        if (resp.ok) {
+            return resp.text();
+        } else {
+            return Promise.reject(resp);
+        }
+    }).then(data => {
+        window.location.reload();
+    }).catch(error => {
+        error.text().then((err) => {
+            showToast(err, "Error");
+        });
+    });
+}

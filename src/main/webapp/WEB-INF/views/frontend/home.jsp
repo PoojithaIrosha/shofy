@@ -1,5 +1,6 @@
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <layout:extends name="base">
 
@@ -473,7 +474,7 @@
                                                                     <span class="tp-product-tooltip">Add to Cart</span>
                                                                 </button>
                                                                 <button type="button"
-                                                                        class="tp-product-action-btn tp-product-add-to-wishlist-btn">
+                                                                        class="tp-product-action-btn tp-product-add-to-wishlist-btn" onclick="addToWishlist('${product.id}')">
                                                                     <svg width="20" height="19" viewBox="0 0 20 19"
                                                                          fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -513,8 +514,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="tp-product-price-wrapper">
-                                                            <span class="tp-product-price old-price">${product.price - (product.price * 100) / 10}</span>
-                                                            <span class="tp-product-price new-price">${product.price}</span>
+                                                            <fmt:formatNumber var="oldPrice" value="${product.price - (product.price * 100) / 10}" type="currency"/>
+                                                            <fmt:formatNumber var="price" value="${product.price}" type="currency"/>
+                                                            <span class="tp-product-price old-price">${oldPrice}</span>
+                                                            <span class="tp-product-price new-price">${price}</span>
                                                         </div>
                                                     </div>
                                                 </div>

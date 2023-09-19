@@ -19,5 +19,8 @@
 
         <mapping class="com.poojithairosha.shofy.model.cart.Cart"/>
         <mapping class="com.poojithairosha.shofy.model.cart.CartItem"/>
+
+        <mapping class="com.poojithairosha.shofy.model.wishlist.Wishlist"/>
+        <mapping class="com.poojithairosha.shofy.model.wishlist.WishlistItem"/>
     </session-factory>
 </hibernate-configuration>

@@ -17,5 +17,6 @@ public class DependencyBinder extends AbstractBinder {
         bind(UserService.class).to(UserService.class).in(Singleton.class);
         bind(ProductService.class).to(ProductService.class).in(Singleton.class);
         bind(CartService.class).to(CartService.class).in(Singleton.class);
+        bind(DependencyBinder.class).to(DependencyBinder.class).in(Singleton.class);
     }
 }
