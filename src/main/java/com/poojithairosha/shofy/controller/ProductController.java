@@ -1,6 +1,5 @@
 package com.poojithairosha.shofy.controller;
 
-import com.poojithairosha.shofy.annotation.IsUser;
 import com.poojithairosha.shofy.model.product.Product;
 import com.poojithairosha.shofy.service.ProductService;
 import jakarta.inject.Inject;
@@ -8,8 +7,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.server.mvc.Viewable;
 
-import javax.swing.text.View;
-import java.util.List;
+import java.util.Map;
 
 
 @Path("/products")
@@ -19,8 +17,13 @@ public class ProductController {
     ProductService productService;
 
     @GET
-    public Viewable getProducts(@DefaultValue("1") @QueryParam("page") Integer page, @DefaultValue("all") @QueryParam("search") String search) {
-        return new Viewable("/frontend/products", productService.getProductsPagination(page, search));
+    public Viewable getProducts(@DefaultValue("1") @QueryParam("page") Integer page, @DefaultValue("all") @QueryParam("search") String search, @DefaultValue("0") @QueryParam("category") Long categoryId, @DefaultValue("0") @QueryParam("price-min") Long minPrice, @DefaultValue("0") @QueryParam("price-max") Long maxPrice) {
+        try {
+            Map<String, Object> productsPagination = productService.getProductsPagination(page, search, categoryId, minPrice, maxPrice);
+            return new Viewable("/frontend/products", productsPagination);
+        }catch (Exception e) {
+            return new Viewable("/frontend/products", null);
+        }
     }
 
     @GET

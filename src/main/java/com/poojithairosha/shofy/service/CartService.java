@@ -4,6 +4,7 @@ import com.poojithairosha.shofy.exception.CustomException;
 import com.poojithairosha.shofy.model.cart.Cart;
 import com.poojithairosha.shofy.model.cart.CartItem;
 import com.poojithairosha.shofy.model.product.Product;
+import com.poojithairosha.shofy.model.product.ProductColors;
 import com.poojithairosha.shofy.model.user.User;
 import com.poojithairosha.shofy.util.HibernateUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class CartService {
     @Context
     private HttpServletRequest request;
 
-    public String addProduct(Long productId, Integer quantity) {
+    public String addProduct(Long productId, Integer quantity, Long colorId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
 
@@ -34,12 +35,13 @@ public class CartService {
                         .setParameter("id", productId)
                         .uniqueResult();
 
+                ProductColors color = session.find(ProductColors.class, colorId);
 
                 if (cart == null) {
                     cart = new Cart();
                     cart.setUser(user);
 
-                    CartItem cartItem = new CartItem(product, quantity, cart);
+                    CartItem cartItem = new CartItem(product, quantity, color, cart);
                     cart.setCartItems(List.of(cartItem));
                     cart.setTotal(cartItem.getProduct().getPrice() * cartItem.getQuantity());
 
@@ -48,7 +50,7 @@ public class CartService {
                     AtomicBoolean isProductFound = new AtomicBoolean(false);
 
                     cart.getCartItems().forEach(cartItem -> {
-                        if (cartItem.getProduct().getId() == productId) {
+                        if (cartItem.getProduct().getId() == productId && cartItem.getColor().getId() == colorId) {
                             if ((quantity + cartItem.getQuantity()) <= product.getQuantity()) {
                                 cartItem.setQuantity(cartItem.getQuantity() + quantity);
                                 isProductFound.set(true);
@@ -60,7 +62,7 @@ public class CartService {
 
                     if (!isProductFound.get()) {
                         if (quantity <= product.getQuantity()) {
-                            CartItem cartItem = new CartItem(product, quantity, cart);
+                            CartItem cartItem = new CartItem(product, quantity, color, cart);
                             cart.getCartItems().add(cartItem);
                         } else {
                             throw new CustomException(Response.Status.BAD_REQUEST, "Product quantity is low. Can't purchase " + quantity + " of " + product.getName() + " at the moment");
@@ -137,14 +139,14 @@ public class CartService {
 
             CartItem cartItem = session.find(CartItem.class, id);
 
-            if(cartItem != null) {
+            if (cartItem != null) {
                 session.beginTransaction();
 
                 Integer oldQty = cartItem.getQuantity();
 
-                if(oldQty > qty) {
+                if (oldQty > qty) {
                     cartItem.getCart().setTotal(cartItem.getCart().getTotal() - (cartItem.getProduct().getPrice() * (oldQty - qty)));
-                }else {
+                } else {
                     cartItem.getCart().setTotal(cartItem.getCart().getTotal() + (cartItem.getProduct().getPrice() * (qty - oldQty)));
                 }
 
@@ -153,11 +155,11 @@ public class CartService {
                 session.merge(cartItem);
                 session.getTransaction().commit();
                 return "success";
-            }else {
+            } else {
                 throw new CustomException(Response.Status.BAD_REQUEST, "Cart Item Not Found");
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }

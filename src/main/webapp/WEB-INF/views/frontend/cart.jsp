@@ -40,7 +40,9 @@
                                 <thead>
                                 <tr>
                                     <th colspan="2" class="tp-cart-header-product">Product</th>
+                                    <th class="tp-cart-header-quantity">Color</th>
                                     <th class="tp-cart-header-price">Price</th>
+                                    <th class="tp-cart-header-quantity">Quantity</th>
                                     <th class="tp-cart-header-quantity">Quantity</th>
                                     <th></th>
                                 </tr>
@@ -54,35 +56,57 @@
                                         <!-- title -->
                                         <td class="tp-cart-title"><a
                                                 href="${BASE_URL}products/${item.id}">${item.product.name}</a></td>
+
+                                        <!-- color -->
+                                        <td>
+                                            <div class="tp-product-details-variation-list">
+                                                <button type="button" class="color tp-color-variation-btn active">
+                                                    <span class="d-none" id="color-id">${item.color.id}</span>
+                                                    <span data-bg-color="${item.color.color}"></span>
+                                                    <span class="tp-color-variation-tootltip">${item.color.color}</span>
+                                                </button>
+                                            </div>
+                                        </td>
+
                                         <!-- price -->
-                                        <fmt:formatNumber var="price" value="${item.quantity * item.product.price}" type="currency"/>
+                                        <fmt:formatNumber var="price" value="${item.quantity * item.product.price}"
+                                                          type="currency"/>
                                         <td class="tp-cart-price"><span>${price}</span>
                                         </td>
+
+
+
                                         <!-- quantity -->
                                         <td class="tp-cart-quantity">
                                             <div style="display: flex; align-items: center; gap: 10px">
-                                            <div class="tp-product-quantity mt-10 mb-10">
-                                            <button class="tp-cart-minus" onclick="cartQtyDecrement('${item.product.id}','${item.id}')">
-                                            <svg width="10" height="2" viewBox="0 0 10 2" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1 1H9" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            </button>
-                                                <input id="qty-${item.id}" class="tp-cart-input" type="text" value="${item.quantity}" onkeyup="cartQtyKeyUp('${item.product.id}','${item.id}');">
-                                                <button class="tp-cart-plus" onclick="cartQtyIncrement('${item.product.id}','${item.id}');">
-                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M5 1V9" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M1 5H9" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>
-                                            </button>
-                                            </div>
-                                            <div id="update-btn" class="d-none">
-                                                <button class="tp-cart-action-btn" onclick="updateQtyBtn('${item.id}')">Update</button>
-                                            </div>
+                                                <div class="tp-product-quantity mt-10 mb-10">
+                                                    <button class="tp-cart-minus"
+                                                            onclick="cartQtyDecrement('${item.product.id}','${item.id}')">
+                                                        <svg width="10" height="2" viewBox="0 0 10 2" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M1 1H9" stroke="currentColor" stroke-width="1.5"
+                                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </button>
+                                                    <input id="qty-${item.id}" class="tp-cart-input" type="text"
+                                                           value="${item.quantity}"
+                                                           onkeyup="cartQtyKeyUp('${item.product.id}','${item.id}');">
+                                                    <button class="tp-cart-plus"
+                                                            onclick="cartQtyIncrement('${item.product.id}','${item.id}');">
+                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5 1V9" stroke="currentColor" stroke-width="1.5"
+                                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                                            <path d="M1 5H9" stroke="currentColor" stroke-width="1.5"
+                                                                  stroke-linecap="round" stroke-linejoin="round"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <div id="update-btn" class="d-none">
+                                                    <button class="tp-cart-action-btn"
+                                                            onclick="updateQtyBtn('${item.id}')">Update
+                                                    </button>
+                                                </div>
                                             </div>
                                         </td>
                                         <!-- action -->
@@ -107,20 +131,20 @@
                             <div class="row align-items-end">
                                 <div class="col-xl-6 col-md-8">
                                     <div class="tp-cart-coupon">
-<%--                                        <form action="#">--%>
-                                            <div class="tp-cart-coupon-input-box">
-                                                <label>Coupon Code:</label>
-                                                <div class="tp-cart-coupon-input d-flex align-items-center">
-                                                    <input type="text" placeholder="Enter Coupon Code">
-                                                    <button type="submit">Apply</button>
-                                                </div>
+                                            <%--                                        <form action="#">--%>
+                                        <div class="tp-cart-coupon-input-box">
+                                            <label>Coupon Code:</label>
+                                            <div class="tp-cart-coupon-input d-flex align-items-center">
+                                                <input type="text" placeholder="Enter Coupon Code">
+                                                <button type="submit">Apply</button>
                                             </div>
-<%--                                        </form>--%>
+                                        </div>
+                                            <%--                                        </form>--%>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-4">
                                     <div class="tp-cart-update text-md-end">
-<%--                                        <button type="button" class="tp-cart-update-btn">Update Cart</button>--%>
+                                            <%--                                        <button type="button" class="tp-cart-update-btn">Update Cart</button>--%>
                                     </div>
                                 </div>
                             </div>

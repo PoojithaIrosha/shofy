@@ -26,7 +26,7 @@ public class ProductService {
         }
     }
 
-    public Map<String, Object> getProductsPagination(Integer page, String search) {
+    public Map<String, Object> getProductsPagination(Integer page, String search, Long categoryId, Long minPrice, Long maxPrice) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
 
@@ -45,8 +45,23 @@ public class ProductService {
                 countPredicatesList.add(criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.lower(countRoot.get("name")), "%" + search.toLowerCase() + "%"), criteriaBuilder.like(criteriaBuilder.lower(countRoot.get("description")), "%" + search.toLowerCase() + "%")));
             }
 
+            if (categoryId != null && categoryId != 0) {
+                predicatesList.add(criteriaBuilder.equal(root.get("category").get("id"), categoryId));
+                countPredicatesList.add(criteriaBuilder.equal(countRoot.get("category").get("id"), categoryId));
+            }
+
+            if (minPrice != null && minPrice != 0) {
+                predicatesList.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+                countPredicatesList.add(criteriaBuilder.greaterThanOrEqualTo(countRoot.get("price"), minPrice));
+            }
+
+            if (maxPrice != null && maxPrice != 0) {
+                predicatesList.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+                countPredicatesList.add(criteriaBuilder.lessThanOrEqualTo(countRoot.get("price"), maxPrice));
+            }
+
             int pageCount = 0;
-            int limit = 2;
+            int limit = 6;
             Long count = null;
 
             if (predicatesList.isEmpty()) {

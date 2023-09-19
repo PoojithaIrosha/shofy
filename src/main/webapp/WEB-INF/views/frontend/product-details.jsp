@@ -1,6 +1,5 @@
 <%@taglib prefix="layoyt" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.product.Product"/>
 
 <layoyt:extends name="base">
@@ -112,8 +111,9 @@
                                     <div class="tp-product-details-variation-item">
                                         <h4 class="tp-product-details-variation-title">Color :</h4>
                                         <div class="tp-product-details-variation-list">
-                                            <c:forEach items="${it.colors}" var="color">
-                                                <button type="button" class="color tp-color-variation-btn">
+                                            <c:forEach items="${it.colors}" var="color" varStatus="loop">
+                                                <button id="color-btn-${loop.index}" type="button" class="color tp-color-variation-btn" onclick="selectColor('${loop.index}');">
+                                                    <span class="d-none" id="color-id">${color.id}</span>
                                                     <span data-bg-color="${color.color}"></span>
                                                     <span class="tp-color-variation-tootltip">${color.color}</span>
                                                 </button>

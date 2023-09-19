@@ -238,10 +238,26 @@ function addToCartPD(productId) {
     const user = localStorage.getItem("user");
     const qty = document.getElementById(`qty-${productId}`).value;
 
+    var colorId = 0;
+
     if (user != null) {
+        document.querySelectorAll(".tp-color-variation-btn").forEach((btn) => {
+            btn.classList.forEach((cls) => {
+                if (cls === "active") {
+                    colorId = btn.querySelector("#color-id").innerHTML;
+                }
+            })
+        });
+
+        if(colorId === 0) {
+            showToast("Please select a color", "Error");
+            return;
+        }
+
         const form = new FormData();
         form.append("product_id", productId);
         form.append("quantity", qty);
+        form.append("color-id", colorId);
 
         fetch(`${BASE_URL}user/cart/add`, {
             method: "POST",
@@ -274,6 +290,9 @@ function addToCart(productId, qty) {
     const user = localStorage.getItem("user");
 
     if (user != null) {
+
+        var colorId = document.querySelector(".tp-color-variation-btn .active #color-id");
+
         const form = new FormData();
         form.append("product_id", productId);
         form.append("quantity", qty);
@@ -520,12 +539,12 @@ function updateQty(itemId, qty) {
             return Promise.reject(resp);
         }
     }).then(data => {
-        if(data === "success") {
+        if (data === "success") {
             showToast("Product quantity updated", "Succcess");
             setTimeout(() => {
                 window.location.reload();
             }, 2000);
-        }else {
+        } else {
             showToast("Something went wrong. Please try again", "Error");
         }
     }).catch(err => {
@@ -592,4 +611,13 @@ function removeFromWishlist(wishlistId, wishlistItemId) {
             showToast(err, "Error");
         });
     });
+}
+
+function selectColor(colorId) {
+
+    document.querySelectorAll(".tp-color-variation-btn").forEach((btn) => {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById(`color-btn-${colorId}`).classList.add("active");
 }

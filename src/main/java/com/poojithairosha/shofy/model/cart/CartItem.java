@@ -2,6 +2,7 @@ package com.poojithairosha.shofy.model.cart;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.poojithairosha.shofy.model.product.Product;
+import com.poojithairosha.shofy.model.product.ProductColors;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -20,6 +21,10 @@ public class CartItem implements Serializable {
 
     private Integer quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "color_id", referencedColumnName = "id")
+    private ProductColors color;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
@@ -28,9 +33,10 @@ public class CartItem implements Serializable {
     public CartItem() {
     }
 
-    public CartItem(Product product, Integer quantity, Cart cart) {
+    public CartItem(Product product, Integer quantity, ProductColors color, Cart cart) {
         this.product = product;
         this.quantity = quantity;
+        this.color = color;
         this.cart = cart;
     }
 
@@ -64,5 +70,13 @@ public class CartItem implements Serializable {
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    public ProductColors getColor() {
+        return color;
+    }
+
+    public void setColor(ProductColors color) {
+        this.color = color;
     }
 }

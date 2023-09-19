@@ -1,6 +1,5 @@
 package com.poojithairosha.shofy.controller;
 
-import com.poojithairosha.shofy.annotation.IsUser;
 import com.poojithairosha.shofy.model.product.Product;
 import com.poojithairosha.shofy.service.ProductService;
 import jakarta.inject.Inject;

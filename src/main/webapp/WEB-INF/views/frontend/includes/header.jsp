@@ -1,4 +1,8 @@
 <%@ page import="com.poojithairosha.shofy.model.user.User" %>
+<%@ page import="com.poojithairosha.shofy.util.HibernateUtil" %>
+<%@ page import="org.hibernate.Session" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.poojithairosha.shofy.model.product.ProductCategory" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -105,18 +109,34 @@
                     </div>
                     <div class="col-xl-6 col-lg-7 d-none d-lg-block">
                         <div class="tp-header-search pl-70">
-                            <form action="#">
+                            <form action="${BASE_URL}products">
                                 <div class="tp-header-search-wrapper d-flex align-items-center">
                                     <div class="tp-header-search-box">
-                                        <input type="text" placeholder="Search for Products...">
+                                        <%
+                                            String search = request.getParameter("search");
+                                            String categoryStr = request.getParameter("category");
+
+                                            if(categoryStr != null) {
+                                                Long category = Long.parseLong(categoryStr);
+                                                pageContext.setAttribute("selectedCategory", category);
+                                            }
+
+                                            pageContext.setAttribute("search", search);
+                                        %>
+                                        <input type="text" placeholder="Search for Products..." name="search"
+                                               value="${search}">
                                     </div>
                                     <div class="tp-header-search-category">
-                                        <select>
-                                            <option>Select Category</option>
-                                            <option>Mobile</option>
-                                            <option>Digital Watch</option>
-                                            <option>Computer</option>
-                                            <option>Watch</option>
+                                        <%
+                                            Session hs = HibernateUtil.getSessionFactory().openSession();
+                                            List<ProductCategory> categories = hs.createQuery("from ProductCategory", ProductCategory.class).list();
+                                            pageContext.setAttribute("categories", categories);
+                                        %>
+                                        <select name="category">
+                                            <option value="0">Select Category</option>
+                                            <c:forEach items="${categories}" var="category">
+                                                <option value="${category.id}" ${ category.id == selectedCategory ? "selected" : ""}>${category.name}</option>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                     <div class="tp-header-search-btn">
@@ -186,21 +206,7 @@
                                 </c:if>
                             </div>
                             <div class="tp-header-action d-flex align-items-center ml-50">
-                                <div class="tp-header-action-item d-none d-lg-block">
-                                    <a href="compare.html" class="tp-header-action-btn">
-                                        <svg width="20" height="19" viewBox="0 0 20 19" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M19.1556 13L15.0778 17.0967L11 13" stroke="currentColor"
-                                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M4.91115 1.00056V14.6183" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M0.833496 5.09667L4.91127 1L8.98905 5.09667" stroke="currentColor"
-                                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </a>
-                                </div>
+
                                 <div class="tp-header-action-item d-none d-lg-block">
                                     <a href="${BASE_URL}user/wishlist" class="tp-header-action-btn">
                                         <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
@@ -213,7 +219,7 @@
                                                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                                   stroke-linejoin="round"/>
                                         </svg>
-<%--                                        <span class="tp-header-action-badge">4</span>--%>
+                                        <%--                                        <span class="tp-header-action-badge">4</span>--%>
                                     </a>
                                 </div>
                                 <div class="tp-header-action-item">
@@ -232,7 +238,7 @@
                                             <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5"
                                                   stroke-linecap="round" stroke-linejoin="round"/>
                                         </svg>
-<%--                                        <span class="tp-header-action-badge">13</span>--%>
+                                        <%--                                        <span class="tp-header-action-badge">13</span>--%>
                                     </a>
                                 </div>
                                 <div class="tp-header-action-item d-lg-none">
@@ -772,7 +778,6 @@
                                             <ul class="tp-submenu">
                                                 <li><a href="cart.html">Shopping Cart</a></li>
                                                 <li><a href="order.html">Track Your Order</a></li>
-                                                <li><a href="compare.html">Compare</a></li>
                                                 <li><a href="wishlist.html">Wishlist</a></li>
                                                 <li><a href="checkout.html">Checkout</a></li>
                                                 <li><a href="profile.html">My account</a></li>
@@ -814,21 +819,6 @@
                 <div class="col-xl-3 col-lg-3 col-md-3 col-6">
                     <div class="tp-header-action d-flex align-items-center justify-content-end ml-50">
                         <div class="tp-header-action-item d-none d-lg-block">
-                            <a href="${BASE_URL}user/compare" class="tp-header-action-btn">
-                                <svg width="20" height="19" viewBox="0 0 20 19" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M14.8396 17.3319V3.71411" stroke="currentColor" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M19.1556 13L15.0778 17.0967L11 13" stroke="currentColor" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M4.91115 1.00056V14.6183" stroke="currentColor" stroke-width="1.5"
-                                          stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M0.833496 5.09667L4.91127 1L8.98905 5.09667" stroke="currentColor"
-                                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="tp-header-action-item d-none d-lg-block">
                             <a href="${BASE_URL}user/wishlist" class="tp-header-action-btn">
                                 <svg width="22" height="20" viewBox="0 0 22 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -840,7 +830,7 @@
                                           stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                           stroke-linejoin="round"/>
                                 </svg>
-<%--                                <span class="tp-header-action-badge">4</span>--%>
+                                <%--                                <span class="tp-header-action-badge">4</span>--%>
                             </a>
                         </div>
                         <div class="tp-header-action-item">
@@ -859,7 +849,7 @@
                                     <path d="M13.5343 10.1018H13.5801" stroke="currentColor" stroke-width="1.5"
                                           stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-<%--                                <span class="tp-header-action-badge">13</span>--%>
+                                <%--                                <span class="tp-header-action-badge">13</span>--%>
                             </a>
                         </div>
                         <div class="tp-header-action-item d-lg-none">

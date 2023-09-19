@@ -30,8 +30,8 @@ public class CartController {
 
     @POST
     @Path("/add")
-    public Response addProduct(@FormParam("product_id") Long productId, @FormParam("quantity") Integer quantity) {
-        String result = cartService.addProduct(productId, quantity);
+    public Response addProduct(@FormParam("product_id") Long productId, @FormParam("quantity") Integer quantity, @FormParam("color-id") Long colorId) {
+        String result = cartService.addProduct(productId, quantity, colorId);
         return Response.ok().entity(result).build();
     }
 
