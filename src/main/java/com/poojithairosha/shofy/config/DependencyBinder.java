@@ -1,9 +1,6 @@
 package com.poojithairosha.shofy.config;
 
-import com.poojithairosha.shofy.service.AuthService;
-import com.poojithairosha.shofy.service.CartService;
-import com.poojithairosha.shofy.service.ProductService;
-import com.poojithairosha.shofy.service.UserService;
+import com.poojithairosha.shofy.service.*;
 import com.poojithairosha.shofy.util.JwtTokenUtil;
 import jakarta.inject.Singleton;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -17,6 +14,7 @@ public class DependencyBinder extends AbstractBinder {
         bind(UserService.class).to(UserService.class).in(Singleton.class);
         bind(ProductService.class).to(ProductService.class).in(Singleton.class);
         bind(CartService.class).to(CartService.class).in(Singleton.class);
-        bind(DependencyBinder.class).to(DependencyBinder.class).in(Singleton.class);
+        bind(CheckoutService.class).to(CheckoutService.class).in(Singleton.class);
+        bind(OrderService.class).to(OrderService.class).in(Singleton.class);
     }
 }

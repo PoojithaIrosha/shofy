@@ -38,7 +38,7 @@ public class Product extends BaseEntity {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductColors> colors;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProductImages> images;
 
     public Product() {

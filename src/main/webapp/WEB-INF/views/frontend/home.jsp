@@ -445,8 +445,8 @@
                                                         <!-- product action -->
                                                         <div class="tp-product-action">
                                                             <div class="tp-product-action-item d-flex flex-column">
-                                                                <button type="button"
-                                                                        class="tp-product-action-btn tp-product-add-cart-btn" onclick="addToCart('${product.id}', '1')">
+                                                                <a href="${BASE_URL}products/${product.id}"
+                                                                        class="tp-product-action-btn tp-product-add-cart-btn">
                                                                     <svg width="20" height="20" viewBox="0 0 20 20"
                                                                          fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -472,7 +472,7 @@
                                                                     </svg>
 
                                                                     <span class="tp-product-tooltip">Add to Cart</span>
-                                                                </button>
+                                                                </a>
                                                                 <button type="button"
                                                                         class="tp-product-action-btn tp-product-add-to-wishlist-btn" onclick="addToWishlist('${product.id}')">
                                                                     <svg width="20" height="19" viewBox="0 0 20 19"

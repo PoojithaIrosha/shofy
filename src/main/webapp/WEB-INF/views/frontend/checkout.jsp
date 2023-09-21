@@ -1,13 +1,25 @@
+<%@ page import="com.poojithairosha.shofy.model.user.User" %>
+<%@ page import="com.poojithairosha.shofy.model.cart.Cart" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.poojithairosha.shofy.model.order.DeliveryFee" %>
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="it" scope="request" type="java.util.HashMap<java.lang.String, java.lang.Object>"/>
 
+<%
+    request.setAttribute("user", (User) it.get("user"));
+    request.setAttribute("cart", (Cart) it.get("cart"));
+    request.setAttribute("deliveryFees", it.get("deliveryFees"));
+%>
 <layout:extends name="base">
 
-
     <layout:put block="header" type="REPLACE">
-        <jsp:include page="includes/header-2.jsp" />
+        <jsp:include page="includes/header-2.jsp"/>
     </layout:put>
 
     <layout:put block="main-content" type="REPLACE">
+
 
         <!-- breadcrumb area start -->
         <section class="breadcrumb__area include-bg pt-95 pb-50" data-bg-color="#EFF1F5">
@@ -31,65 +43,9 @@
         <section class="tp-checkout-area pb-120" data-bg-color="#EFF1F5">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="tp-checkout-verify">
-                            <div class="tp-checkout-verify-item">
-                                <p class="tp-checkout-verify-reveal">Returning customer?
-                                    <button type="button" class="tp-checkout-login-form-reveal-btn">Click here to
-                                        login
-                                    </button>
-                                </p>
-
-                                <div id="tpReturnCustomerLoginForm" class="tp-return-customer">
-                                    <form action="#">
-
-                                        <div class="tp-return-customer-input">
-                                            <label>Email</label>
-                                            <input type="text" placeholder="Your Email">
-                                        </div>
-                                        <div class="tp-return-customer-input">
-                                            <label>Password</label>
-                                            <input type="password" placeholder="Password">
-                                        </div>
-
-                                        <div class="tp-return-customer-suggetions d-sm-flex align-items-center justify-content-between mb-20">
-                                            <div class="tp-return-customer-remeber">
-                                                <input id="remeber" type="checkbox">
-                                                <label for="remeber">Remember me</label>
-                                            </div>
-                                            <div class="tp-return-customer-forgot">
-                                                <a href="forgot.html">Forgot Password?</a>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Login
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="tp-checkout-verify-item">
-                                <p class="tp-checkout-verify-reveal">Have a coupon?
-                                    <button type="button" class="tp-checkout-coupon-form-reveal-btn">Click here to enter
-                                        your code
-                                    </button>
-                                </p>
-
-                                <div id="tpCheckoutCouponForm" class="tp-return-customer">
-                                    <form action="#">
-                                        <div class="tp-return-customer-input">
-                                            <label>Coupon Code :</label>
-                                            <input type="text" placeholder="Coupon">
-                                        </div>
-                                        <button type="submit" class="tp-return-customer-btn tp-checkout-btn">Apply
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-lg-7">
                         <div class="tp-checkout-bill-area">
                             <h3 class="tp-checkout-bill-title">Billing Details</h3>
-
                             <div class="tp-checkout-bill-form">
                                 <form action="#">
                                     <div class="tp-checkout-bill-inner">
@@ -97,93 +53,59 @@
                                             <div class="col-md-6">
                                                 <div class="tp-checkout-input">
                                                     <label>First Name <span>*</span></label>
-                                                    <input type="text" placeholder="First Name">
+                                                    <input id="firstName" type="text" placeholder="First Name"
+                                                           value="${user.firstName}">
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="tp-checkout-input">
                                                     <label>Last Name <span>*</span></label>
-                                                    <input type="text" placeholder="Last Name">
+                                                    <input id="lastName" type="text" placeholder="Last Name" value="${user.lastName}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="tp-checkout-input">
-                                                    <label>Company name (optional)</label>
-                                                    <input type="text" placeholder="Example LTD.">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="tp-checkout-input">
-                                                    <label>Country / Region </label>
-                                                    <input type="text" placeholder="United States (US)">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="tp-checkout-input">
-                                                    <label>Street address</label>
-                                                    <input type="text" placeholder="House number and street name">
-                                                </div>
 
-                                                <div class="tp-checkout-input">
-                                                    <input type="text"
-                                                           placeholder="Apartment, suite, unit, etc. (optional)">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="tp-checkout-input">
-                                                    <label>Town / City</label>
-                                                    <input type="text" placeholder="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="tp-checkout-input">
-                                                    <label>State / County</label>
-                                                    <select>
-                                                        <option>New York US</option>
-                                                        <option>Berlin Germany</option>
-                                                        <option>Paris France</option>
-                                                        <option>Tokiyo Japan</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="tp-checkout-input">
-                                                    <label>Postcode ZIP</label>
-                                                    <input type="text" placeholder="">
-                                                </div>
-                                            </div>
                                             <div class="col-md-12">
                                                 <div class="tp-checkout-input">
                                                     <label>Phone <span>*</span></label>
-                                                    <input type="text" placeholder="">
+                                                    <input id="mobile" type="text" placeholder="" value="${user.mobileNumber}">
                                                 </div>
                                             </div>
+
                                             <div class="col-md-12">
                                                 <div class="tp-checkout-input">
                                                     <label>Email address <span>*</span></label>
-                                                    <input type="email" placeholder="">
+                                                    <input id="email" type="email" placeholder="" value="${user.email}">
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="tp-checkout-option-wrapper">
-                                                    <div class="tp-checkout-option">
-                                                        <input id="create_free_account" type="checkbox">
-                                                        <label for="create_free_account">Create an account?</label>
-                                                    </div>
-                                                    <div class="tp-checkout-option">
-                                                        <input id="ship_to_diff_address" type="checkbox">
-                                                        <label for="ship_to_diff_address">Ship to a different
-                                                            address?</label>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="col-md-12">
                                                 <div class="tp-checkout-input">
-                                                    <label>Order notes (optional)</label>
-                                                    <textarea
-                                                            placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                                    <label>Street address</label>
+                                                    <input id="addressLine1" type="text" placeholder="House number and street name"
+                                                           value="${user.userAddress.addressLine1}">
+                                                </div>
+
+                                                <div class="tp-checkout-input">
+                                                    <input id="addressLine2" type="text"
+                                                           placeholder="Apartment, suite, unit, etc. (optional)"
+                                                           value="${user.userAddress.addressLine2}">
                                                 </div>
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="tp-checkout-input">
+                                                    <label>Town / City</label>
+                                                    <input id="city" type="text" placeholder="" value="${user.userAddress.city}">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="tp-checkout-input">
+                                                    <label>Postcode ZIP</label>
+                                                    <input id="zipCode" type="text" placeholder=""
+                                                           value="${user.userAddress.zipCode}">
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </form>
@@ -193,7 +115,7 @@
                     <div class="col-lg-5">
                         <!-- checkout place order -->
                         <div class="tp-checkout-place white-bg">
-                            <h3 class="tp-checkout-place-title">Your Order</h3>
+                            <h3 class="tp-checkout-place-title mb-3">Your Order</h3>
 
                             <div class="tp-order-info-list">
                                 <ul>
@@ -205,98 +127,62 @@
                                     </li>
 
                                     <!-- item list -->
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Xiaomi Redmi Note 9 Global V. <span> x 2</span></p>
-                                        <span>$274:00</span>
-                                    </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Office Chair Multifun <span> x 1</span></p>
-                                        <span>$74:00</span>
-                                    </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Apple Watch Series 6 Stainless <span> x 3</span></p>
-                                        <span>$362:00</span>
-                                    </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Body Works Mens Collection <span> x 1</span></p>
-                                        <span>$145:00</span>
-                                    </li>
+                                    <c:forEach items="${cart.cartItems}" var="cartItem">
+                                        <li class="tp-order-info-list-desc">
+                                            <p>${cartItem.product.name} <span> x ${cartItem.quantity}</span></p>
+                                            <fmt:formatNumber var="itemPrice"
+                                                              value="${cartItem.product.price * cartItem.quantity}"
+                                                              type="currency"/>
+                                            <span>${itemPrice}</span>
+                                        </li>
+                                    </c:forEach>
 
                                     <!-- subtotal -->
                                     <li class="tp-order-info-list-subtotal">
                                         <span>Subtotal</span>
-                                        <span>$507.00</span>
+                                        <fmt:formatNumber var="subTotal" value="${cart.total}" type="currency"/>
+                                        <span>${subTotal}</span>
                                     </li>
 
                                     <!-- shipping -->
                                     <li class="tp-order-info-list-shipping">
                                         <span>Shipping</span>
                                         <div class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
-                                    <span>
-                                       <input id="flat_rate" type="radio" name="shipping">
-                                       <label for="flat_rate">Flat rate: <span>$20.00</span></label>
-                                    </span>
-                                            <span>
-                                       <input id="local_pickup" type="radio" name="shipping">
-                                       <label for="local_pickup">Local pickup: <span>$25.00</span></label>
-                                    </span>
-                                            <span>
-                                       <input id="free_shipping" type="radio" name="shipping">
-                                       <label for="free_shipping">Free shipping</label>
-                                    </span>
+                                            <c:forEach items="${deliveryFees}" var="deliveryFee" varStatus="dfv">
+                                                <fmt:formatNumber var="deliveryPriceFmt" value="${deliveryFee.fee}"
+                                                                  type="currency"/>
+                                                <span>
+                                                    <input class="delivery-fee-radio ${dfv.index == 0 ? "active" : ""}" id="${deliveryFee.city}" type="radio" name="shipping" value="${deliveryFee.id}" ${dfv.index == 0 ? "checked" : ""} onchange="changeDelivery('${cart.total}', '${deliveryFee.fee}');">
+                                                    <label for="${deliveryFee.city}">${deliveryFee.city}: <span>${deliveryPriceFmt}</span></label>
+                                                </span>
+                                            </c:forEach>
                                         </div>
                                     </li>
 
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <span>$1,476.00</span>
+                                        <fmt:formatNumber value="${cart.total + deliveryFees.get(0).fee}" type="currency" var="total" />
+                                        <span id="total">${total}</span>
+                                        <span class="d-none" id="total-unformatted">${cart.total + deliveryFees.get(0).fee}</span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="tp-checkout-payment">
-                                <div class="tp-checkout-payment-item">
-                                    <input type="radio" id="back_transfer" name="payment">
-                                    <label for="back_transfer" data-bs-toggle="direct-bank-transfer">Direct Bank
-                                        Transfer</label>
-                                    <div class="tp-checkout-payment-desc direct-bank-transfer">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as
-                                            the payment reference. Your order will not be shipped until the funds have
-                                            cleared in our account.</p>
-                                    </div>
-                                </div>
-                                <div class="tp-checkout-payment-item">
-                                    <input type="radio" id="cheque_payment" name="payment">
-                                    <label for="cheque_payment">Cheque Payment</label>
-                                    <div class="tp-checkout-payment-desc cheque-payment">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as
-                                            the payment reference. Your order will not be shipped until the funds have
-                                            cleared in our account.</p>
-                                    </div>
-                                </div>
-                                <div class="tp-checkout-payment-item">
-                                    <input type="radio" id="cod" name="payment">
-                                    <label for="cod">Cash on Delivery</label>
-                                    <div class="tp-checkout-payment-desc cash-on-delivery">
-                                        <p>Make your payment directly into our bank account. Please use your Order ID as
-                                            the payment reference. Your order will not be shipped until the funds have
-                                            cleared in our account.</p>
-                                    </div>
-                                </div>
                                 <div class="tp-checkout-payment-item paypal-payment">
-                                    <input type="radio" id="paypal" name="payment">
-                                    <label for="paypal">PayPal <img src="${BASE_URL}assets/img/icon/payment-option.png" alt=""> <a
-                                            href="#">What is PayPal?</a></label>
+                                    <input type="radio" id="payhere" name="payment" checked>
+                                    <label for="payhere">PayHere <img src="${BASE_URL}assets/img/icon/payment-option.png"
+                                                                    alt=""> </label>
                                 </div>
                             </div>
                             <div class="tp-checkout-agree">
                                 <div class="tp-checkout-option">
-                                    <input id="read_all" type="checkbox">
+                                    <input id="read_all" type="checkbox" checked>
                                     <label for="read_all">I have read and agree to the website.</label>
                                 </div>
                             </div>
                             <div class="tp-checkout-btn-wrapper">
-                                <a href="#" class="tp-checkout-btn w-100">Place Order</a>
+                                <button onclick="checkout();" class="tp-checkout-btn w-100">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -304,6 +190,9 @@
             </div>
         </section>
         <!-- checkout area end -->
+    </layout:put>
+    <layout:put block="scripts" type="APPEND">
+        <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
     </layout:put>
 </layout:extends>
 

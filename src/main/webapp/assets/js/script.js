@@ -249,7 +249,7 @@ function addToCartPD(productId) {
             })
         });
 
-        if(colorId === 0) {
+        if (colorId === 0) {
             showToast("Please select a color", "Error");
             return;
         }
@@ -620,4 +620,144 @@ function selectColor(colorId) {
     });
 
     document.getElementById(`color-btn-${colorId}`).classList.add("active");
+}
+
+function changeDelivery(subTotal, deliveryFee) {
+    const total = document.getElementById("total");
+    const totalUnformatted = document.getElementById("total-unformatted");
+
+    const formattedTotal = (Number.parseInt(subTotal) + Number.parseInt(deliveryFee)).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    });
+    totalUnformatted.innerHTML = (Number.parseInt(subTotal) + Number.parseInt(deliveryFee)).toString();
+    total.innerHTML = formattedTotal;
+
+    document.querySelectorAll(".delivery-fee-radio").forEach((radio) => {
+        if (radio.checked) {
+            radio.classList.add("active");
+        } else {
+            radio.classList.remove("active");
+        }
+    })
+}
+
+
+function checkout() {
+
+    const amount = document.getElementById("total-unformatted").innerHTML;
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const mobile = document.getElementById("mobile");
+    const email = document.getElementById("email");
+    const addressLine1 = document.getElementById("addressLine1");
+    const addressLine2 = document.getElementById("addressLine2");
+    const city = document.getElementById("city");
+    const zipCode = document.getElementById("zipCode");
+    let deliveryFee = undefined;
+
+    document.querySelectorAll(".delivery-fee-radio").forEach((radio) => {
+        if (radio.checked) {
+            deliveryFee = radio;
+        }
+    });
+
+    fetch(`${BASE_URL}user/checkout/hash?amount=${amount}`, {
+        method: "GET",
+        headers: {
+            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
+        }
+    }).then((resp) => {
+        if (resp.ok) {
+            return resp.json();
+        } else {
+            return Promise.reject(resp);
+        }
+    }).then((data) => {
+
+        // Payment completed. It can be a successful failure.
+        payhere.onCompleted = function onCompleted(orderId) {
+            var data = {
+                total: amount,
+                deliveryFee: deliveryFee.value,
+                firstName: firstName.value,
+                lastName: lastName.value,
+                mobile: mobile.value,
+                email: email.value,
+                addressLine1: addressLine1.value,
+                addressLine2: addressLine2.value,
+                city: city.value,
+                zipCode: zipCode.value,
+                orderId: orderId
+            }
+
+            fetch(`${BASE_URL}user/checkout`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`,
+                },
+                body: JSON.stringify(data),
+            }).then(resp => {
+                if (resp.ok) {
+                    return resp.text();
+                } else {
+                    return Promise.reject(resp);
+                }
+            }).then(data => {
+                window.location = `${BASE_URL}user/order/success/${orderId}`;
+            }).catch(error => {
+                error.text().then((err) => {
+                    showToast(err, "Error");
+                    console.log(err);
+                });
+            })
+
+            // Note: validate the payment and show success or failure page to the customer
+        };
+
+        // Payment window closed
+        payhere.onDismissed = function onDismissed() {
+            // Note: Prompt user to pay again or show an error page
+            console.log("Payment dismissed");
+        };
+
+        // Error occurred
+        payhere.onError = function onError(error) {
+            // Note: show an error page
+            console.log("Error:" + error);
+        };
+
+        // Put the payment variables here
+        var payment = {
+            "sandbox": true,
+            "merchant_id": data.merchantID,    // Replace your Merchant ID
+            "return_url": undefined,     // Important
+            "cancel_url": undefined,     // Important
+            "notify_url": undefined,
+            "order_id": data.orderID,
+            "items": firstName.value + " - " + data.orderID,
+            "amount": data.amount,
+            "currency": data.currency,
+            "hash": data.hash, // *Replace with generated hash retrieved from backend
+            "first_name": firstName.value,
+            "last_name": lastName.value,
+            "email": email.value,
+            "phone": mobile.value,
+            "address": addressLine1.value + ", " + addressLine2.value,
+            "city": city.value,
+            "country": "Sri Lanka",
+            "delivery_address": addressLine1.value + ", " + addressLine2.value,
+            "delivery_city": city.value,
+            "delivery_country": "Sri Lanka",
+        };
+
+        // Show the payhere.js popup, when "PayHere Pay" is clicked
+        payhere.startPayment(payment);
+    }).catch((error) => {
+        error.text().then((err) => {
+            showToast(err, "Error");
+            console.log(err);
+        });
+    });
 }

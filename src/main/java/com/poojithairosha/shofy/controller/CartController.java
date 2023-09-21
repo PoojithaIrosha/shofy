@@ -18,7 +18,13 @@ public class CartController {
     @GET
     public Viewable cart() {
         Cart cart = cartService.getCart();
-        return new Viewable("/frontend/cart", cart);
+
+        if (cart != null) {
+            return new Viewable("/frontend/cart", cart);
+        }else {
+            return new Viewable("/frontend/cart", null);
+        }
+
     }
 
     @GET

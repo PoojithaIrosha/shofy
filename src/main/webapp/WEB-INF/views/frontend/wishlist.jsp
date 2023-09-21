@@ -42,25 +42,31 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.wishlist.Wishlist"/>
+                                <jsp:useBean id="it" scope="request"
+                                             type="com.poojithairosha.shofy.model.wishlist.Wishlist"/>
                                 <c:forEach items="${it.wishlistItems}" var="wishlistItem">
                                     <%-- Product Start--%>
                                     <tr>
                                         <!-- img -->
-                                        <td class="tp-cart-img"><a href="${BASE_URL}products/${wishlistItem.id}"> <img
+                                        <td class="tp-cart-img"><a href="${BASE_URL}products/${wishlistItem.product.id}"> <img
                                                 src="${wishlistItem.product.images.get(0).imageURL}" alt=""></a></td>
                                         <!-- title -->
-                                        <td class="tp-cart-title"><a href="${BASE_URL}products/${wishlistItem.id}">${wishlistItem.product.name}</a></td>
+                                        <td class="tp-cart-title"><a
+                                                href="${BASE_URL}products/${wishlistItem.id}">${wishlistItem.product.name}</a>
+                                        </td>
                                         <!-- price -->
-                                        <fmt:formatNumber var="price" value="${wishlistItem.product.price}" type="currency"/>
+                                        <fmt:formatNumber var="price" value="${wishlistItem.product.price}"
+                                                          type="currency"/>
                                         <td class="tp-cart-price"><span>${price}</span></td>
                                         <td class="tp-cart-add-to-cart">
-                                            <button type="submit" class="tp-btn tp-btn-2 tp-btn-blue" onclick="addToCart('${wishlistItem.product.id}', '1');removeFromWishlist('${it.id}', '${wishlistItem.id}');">Add To Cart</button>
+                                            <a href="${BASE_URL}products/${wishlistItem.product.id}"
+                                               class="tp-btn tp-btn-2 tp-btn-blue">View Product</a>
                                         </td>
 
                                         <!-- action -->
                                         <td class="tp-cart-action">
-                                            <button class="tp-cart-action-btn" onclick="removeFromWishlist('${it.id}', '${wishlistItem.id}')">
+                                            <button class="tp-cart-action-btn"
+                                                    onclick="removeFromWishlist('${it.id}', '${wishlistItem.id}')">
                                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd" clip-rule="evenodd"

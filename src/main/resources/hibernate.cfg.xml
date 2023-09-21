@@ -7,6 +7,7 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">password</property>
         <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="com.poojithairosha.shofy.model.user.User"/>
@@ -22,5 +23,9 @@
 
         <mapping class="com.poojithairosha.shofy.model.wishlist.Wishlist"/>
         <mapping class="com.poojithairosha.shofy.model.wishlist.WishlistItem"/>
+
+        <mapping class="com.poojithairosha.shofy.model.order.Order"/>
+        <mapping class="com.poojithairosha.shofy.model.order.OrderItem"/>
+        <mapping class="com.poojithairosha.shofy.model.order.DeliveryFee"/>
     </session-factory>
 </hibernate-configuration>
