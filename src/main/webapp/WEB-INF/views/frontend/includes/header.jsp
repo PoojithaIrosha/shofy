@@ -3,6 +3,7 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.poojithairosha.shofy.model.product.ProductCategory" %>
+<%@ page import="com.poojithairosha.shofy.util.ImageURIUtil" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -116,7 +117,7 @@
                                             String search = request.getParameter("search");
                                             String categoryStr = request.getParameter("category");
 
-                                            if(categoryStr != null) {
+                                            if (categoryStr != null) {
                                                 Long category = Long.parseLong(categoryStr);
                                                 pageContext.setAttribute("selectedCategory", category);
                                             }
@@ -186,17 +187,34 @@
                                 <c:if test="${user != null}">
                                     <a href="${BASE_URL}user/profile" class="d-flex align-items-center">
                                         <div class="tp-header-login-icon">
-                                    <span>
-                                       <svg width="17" height="21" viewBox="0 0 17 21" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                          <circle cx="8.57894" cy="5.77803" r="4.77803" stroke="currentColor"
-                                                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                                d="M1.00002 17.2014C0.998732 16.8655 1.07385 16.5337 1.2197 16.2311C1.67736 15.3158 2.96798 14.8307 4.03892 14.611C4.81128 14.4462 5.59431 14.336 6.38217 14.2815C7.84084 14.1533 9.30793 14.1533 10.7666 14.2815C11.5544 14.3367 12.3374 14.4468 13.1099 14.611C14.1808 14.8307 15.4714 15.27 15.9291 16.2311C16.2224 16.8479 16.2224 17.564 15.9291 18.1808C15.4714 19.1419 14.1808 19.5812 13.1099 19.7918C12.3384 19.9634 11.5551 20.0766 10.7666 20.1304C9.57937 20.2311 8.38659 20.2494 7.19681 20.1854C6.92221 20.1854 6.65677 20.1854 6.38217 20.1304C5.59663 20.0773 4.81632 19.9641 4.04807 19.7918C2.96798 19.5812 1.68652 19.1419 1.2197 18.1808C1.0746 17.8747 0.999552 17.5401 1.00002 17.2014Z"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"/>
-                                       </svg>
-                                    </span>
+                                            <c:if test="${user.picture != null}">
+
+                                                <c:if test="${user.googleId != null}">
+                                                    <img src="${user.picture}" alt="" height="50"
+                                                         style="clip-path: circle(); margin-right: 10px"/>
+                                                </c:if>
+                                                <c:if test="${user.googleId == null}">
+                                                    <% request.setAttribute("userProfile", ImageURIUtil.convertFileToDataURI(user.getPicture())); %>
+                                                    <img src="${userProfile}" alt="" height="50"
+                                                         style="clip-path: circle(); margin-right: 10px"/>
+                                                </c:if>
+                                            </c:if>
+                                            <c:if test="${user.picture == null}">
+                                                <span>
+                                                   <svg width="17" height="21" viewBox="0 0 17 21" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                      <circle cx="8.57894" cy="5.77803" r="4.77803"
+                                                              stroke="currentColor"
+                                                              stroke-width="1.5" stroke-linecap="round"
+                                                              stroke-linejoin="round"/>
+                                                      <path fill-rule="evenodd" clip-rule="evenodd"
+                                                            d="M1.00002 17.2014C0.998732 16.8655 1.07385 16.5337 1.2197 16.2311C1.67736 15.3158 2.96798 14.8307 4.03892 14.611C4.81128 14.4462 5.59431 14.336 6.38217 14.2815C7.84084 14.1533 9.30793 14.1533 10.7666 14.2815C11.5544 14.3367 12.3374 14.4468 13.1099 14.611C14.1808 14.8307 15.4714 15.27 15.9291 16.2311C16.2224 16.8479 16.2224 17.564 15.9291 18.1808C15.4714 19.1419 14.1808 19.5812 13.1099 19.7918C12.3384 19.9634 11.5551 20.0766 10.7666 20.1304C9.57937 20.2311 8.38659 20.2494 7.19681 20.1854C6.92221 20.1854 6.65677 20.1854 6.38217 20.1304C5.59663 20.0773 4.81632 19.9641 4.04807 19.7918C2.96798 19.5812 1.68652 19.1419 1.2197 18.1808C1.0746 17.8747 0.999552 17.5401 1.00002 17.2014Z"
+                                                            stroke="currentColor" stroke-width="1.5"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"/>
+                                                   </svg>
+                                                </span>
+                                            </c:if>
                                         </div>
                                         <div class="tp-header-login-content d-none d-xl-block">
                                             <span>Hello, ${user.firstName}</span>

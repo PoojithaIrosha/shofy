@@ -113,8 +113,8 @@ function googleSignIn(response) {
     xhr.open('POST', `${BASE_URL}auth/google`);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
-        const data = JSON.parse(xhr.responseText);
         console.log(xhr.responseText);
+        const data = JSON.parse(xhr.responseText);
 
         localStorage.setItem("user", JSON.stringify(data));
         window.location = `${BASE_URL}`;
@@ -125,6 +125,33 @@ function googleSignIn(response) {
     xhr.send('idtoken=' + encodedJwt);
 }
 
+function refreshToken() {
+    const userJson = localStorage.getItem("user");
+    if (userJson) {
+        const user = JSON.parse(userJson);
+        const refreshToken = user.refreshToken;
+
+        const form = new FormData();
+        form.append("refreshToken", refreshToken);
+
+        fetch(`${BASE_URL}auth/refresh-token`, {
+            method: "POST",
+            body: form
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                return Promise.reject(resp);
+            }
+        }).then(data => {
+            localStorage.setItem("user", JSON.stringify(data));
+        }).catch(error => {
+            error.text().then((err) => {
+                showToast(err, "Error");
+            })
+        })
+    }
+}
 
 /* ====================
    Forgot Password
@@ -399,6 +426,37 @@ function updateProfile() {
         }
     }).then(data => {
         showToast(data, "Success");
+    }).catch(error => {
+        error.text().then((err) => {
+            showToast(err, "Error");
+        });
+    });
+}
+
+/* ====================
+   Change Profile Image
+   ==================== */
+function changeProfileImage(event) {
+    const fileInput = document.getElementById("profile-thumb-input");
+    const files = fileInput.files;
+
+    const form = new FormData();
+    form.append("file", files[0]);
+
+    fetch(`${BASE_URL}user/profile/update-picture`, {
+        method: "PUT",
+        body: form,
+    }).then(resp => {
+        if(resp.ok) {
+            return resp.text();
+        }else {
+            return Promise.reject(resp);
+        }
+    }).then(data => {
+        showToast(data, "Success");
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     }).catch(error => {
         error.text().then((err) => {
             showToast(err, "Error");

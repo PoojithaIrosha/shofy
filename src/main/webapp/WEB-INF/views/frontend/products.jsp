@@ -364,9 +364,8 @@
                                                                 <!-- product action -->
                                                                 <div class="tp-product-action-2 tp-product-action-blackStyle">
                                                                     <div class="tp-product-action-item-2 d-flex flex-column">
-                                                                        <button type="button"
-                                                                                class="tp-product-action-btn-2 tp-product-add-cart-btn"
-                                                                                onclick="addToCart('${product.id}', '1')">
+                                                                        <a href="${BASE_URL}products/${product.id}"
+                                                                                class="tp-product-action-btn-2 tp-product-add-cart-btn">
                                                                             <svg width="17" height="17"
                                                                                  viewBox="0 0 17 17"
                                                                                  fill="none"
@@ -397,7 +396,7 @@
                                                                                       fill="currentColor"/>
                                                                             </svg>
                                                                             <span class="tp-product-tooltip tp-product-tooltip-right">Add to Cart</span>
-                                                                        </button>
+                                                                        </a>
                                                                         <button type="button"
                                                                                 class="tp-product-action-btn-2 tp-product-add-to-wishlist-btn"
                                                                                 onclick="addToWishlist('${product.id}')">

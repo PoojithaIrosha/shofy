@@ -4,14 +4,16 @@ import com.poojithairosha.shofy.dto.LoginRespDTO;
 import com.poojithairosha.shofy.dto.RPReqDTO;
 import com.poojithairosha.shofy.dto.RegisterReqDTO;
 import com.poojithairosha.shofy.dto.UpdatePasswordDTO;
-import com.poojithairosha.shofy.email.EmailService;
+import com.poojithairosha.shofy.mail.EmailService;
 import com.poojithairosha.shofy.exception.CustomException;
+import com.poojithairosha.shofy.mail.EmailVerificationMail;
+import com.poojithairosha.shofy.mail.ForgotPasswordMail;
 import com.poojithairosha.shofy.model.user.User;
 import com.poojithairosha.shofy.model.user.UserType;
+import com.poojithairosha.shofy.provider.MailServiceProvider;
 import com.poojithairosha.shofy.util.Encryption;
 import com.poojithairosha.shofy.util.HibernateUtil;
 import com.poojithairosha.shofy.util.JwtTokenUtil;
-import com.poojithairosha.shofy.util.ThreadPoolExecutorUtil;
 import io.fusionauth.jwks.JSONWebKeySetHelper;
 import io.fusionauth.jwks.domain.JSONWebKey;
 import io.fusionauth.jwt.Verifier;
@@ -60,41 +62,43 @@ public class AuthService {
                 session.persist(newUser);
                 session.getTransaction().commit();
 
-                EmailService.sendEmail(newUser.getEmail(), "Email Verification - Shofy", "<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
-                        "      <h1\n" +
-                        "        style=\"font-family: monospace; font-weight: bolder\"\n" +
-                        "      >\n" +
-                        "        SHOFY - Email Verification\n" +
-                        "    </h1>\n" +
-                        "      <table style=\"font-family: monospace\">\n" +
-                        "        <tr>\n" +
-                        "          <td>Name:</td>\n" +
-                        "          <td>" + newUser.getFirstName() + "</td>\n" +
-                        "        </tr>\n" +
-                        "        <tr>\n" +
-                        "          <td>Email:</td>\n" +
-                        "          <td>" + newUser.getEmail() + "</td>\n" +
-                        "        </tr>\n" +
-                        "      </table>\n" +
-                        "      <br />\n" +
-                        "      <span style=\"font-family: monospace; color: gray;\">Please verify your email address by pressing the below button</span>\n" +
-                        "      <br>\n" +
-                        "      <a\n" +
-                        "        href=\"http://localhost:8080/shofy/auth/verify-email?code=" + verificationCode + "\"\n" +
-                        "        style=\"\n" +
-                        "          background-color: crimson;\n" +
-                        "          border: none;\n" +
-                        "          color: white;\n" +
-                        "          padding: 10px 50px;\n" +
-                        "          border-radius: 5px;\n" +
-                        "          text-decoration: none;\n" +
-                        "          text-transform: uppercase;\n" +
-                        "          font-family: monospace;\n" +
-                        "          letter-spacing: 1px;\n" +
-                        "        \"\n" +
-                        "        >Verify Email</a\n" +
-                        "      >\n" +
-                        "    </div>");
+                MailServiceProvider.getInstance().sendMail(new EmailVerificationMail(newUser.getEmail(), verificationCode, newUser.getFirstName(), newUser.getEmail()));
+
+//                EmailService.sendEmail(newUser.getEmail(), "Email Verification - Shofy", "<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
+//                        "      <h1\n" +
+//                        "        style=\"font-family: monospace; font-weight: bolder\"\n" +
+//                        "      >\n" +
+//                        "        SHOFY - Email Verification\n" +
+//                        "    </h1>\n" +
+//                        "      <table style=\"font-family: monospace\">\n" +
+//                        "        <tr>\n" +
+//                        "          <td>Name:</td>\n" +
+//                        "          <td>" + newUser.getFirstName() + "</td>\n" +
+//                        "        </tr>\n" +
+//                        "        <tr>\n" +
+//                        "          <td>Email:</td>\n" +
+//                        "          <td>" + newUser.getEmail() + "</td>\n" +
+//                        "        </tr>\n" +
+//                        "      </table>\n" +
+//                        "      <br />\n" +
+//                        "      <span style=\"font-family: monospace; color: gray;\">Please verify your email address by pressing the below button</span>\n" +
+//                        "      <br>\n" +
+//                        "      <a\n" +
+//                        "        href=\"http://localhost:8080/shofy/auth/verify-email?code=" + verificationCode + "\"\n" +
+//                        "        style=\"\n" +
+//                        "          background-color: crimson;\n" +
+//                        "          border: none;\n" +
+//                        "          color: white;\n" +
+//                        "          padding: 10px 50px;\n" +
+//                        "          border-radius: 5px;\n" +
+//                        "          text-decoration: none;\n" +
+//                        "          text-transform: uppercase;\n" +
+//                        "          font-family: monospace;\n" +
+//                        "          letter-spacing: 1px;\n" +
+//                        "        \"\n" +
+//                        "        >Verify Email</a\n" +
+//                        "      >\n" +
+//                        "    </div>");
 
                 return "New user registered successfully";
             } catch (CustomException customException) {
@@ -117,13 +121,13 @@ public class AuthService {
 
     public LoginRespDTO saveGoogleUser(String token) {
         List<JSONWebKey> keys = JSONWebKeySetHelper.retrieveKeysFromJWKS("https://www.googleapis.com/oauth2/v3/certs");
-        PublicKey publicKey = JSONWebKey.parse(keys.get(0));
+
+        PublicKey publicKey = JSONWebKey.parse(keys.get(1));
 
         Verifier verifier = RSAVerifier.newVerifier(publicKey);
         JWT jwt = JWT.getDecoder().decode(token, verifier);
 
         String email = jwt.getString("email");
-
         String firstName = jwt.getString("given_name");
         String lastName = jwt.getString("family_name");
         Boolean emailVerified = jwt.getBoolean("email_verified");
@@ -244,41 +248,44 @@ public class AuthService {
                     throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, "Error occurred while resetting password");
                 }
 
-                EmailService.sendEmail(email, "Password Reset - Shofy", "<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
-                        "      <h1\n" +
-                        "        style=\"font-family: monospace; font-weight: bolder\"\n" +
-                        "      >\n" +
-                        "        SHOFY - Password Reset\n" +
-                        "    </h1>\n" +
-                        "      <table style=\"font-family: monospace\">\n" +
-                        "        <tr>\n" +
-                        "          <td>Name:</td>\n" +
-                        "          <td>" + userByEmail.getFirstName() + "</td>\n" +
-                        "        </tr>\n" +
-                        "        <tr>\n" +
-                        "          <td>Email:</td>\n" +
-                        "          <td>" + userByEmail.getEmail() + "</td>\n" +
-                        "        </tr>\n" +
-                        "      </table>\n" +
-                        "      <br />\n" +
-                        "      <span style=\"font-family: monospace; color: gray;\">Please press the button RESET PASSWORD</span>\n" +
-                        "      <br>\n" +
-                        "      <a\n" +
-                        "        href=\"http://localhost:8080/shofy/auth/reset-password?code=" + uuid + "\"\n" +
-                        "        style=\"\n" +
-                        "          background-color: crimson;\n" +
-                        "          border: none;\n" +
-                        "          color: white;\n" +
-                        "          padding: 10px 50px;\n" +
-                        "          border-radius: 5px;\n" +
-                        "          text-decoration: none;\n" +
-                        "          text-transform: uppercase;\n" +
-                        "          font-family: monospace;\n" +
-                        "          letter-spacing: 1px;\n" +
-                        "        \"\n" +
-                        "        >Reset Password</a\n" +
-                        "      >\n" +
-                        "    </div>");
+                ForgotPasswordMail forgotPasswordMail = new ForgotPasswordMail(email, uuid, userByEmail.getFirstName(), userByEmail.getEmail());
+                MailServiceProvider.getInstance().sendMail(forgotPasswordMail);
+
+//                EmailService.sendEmail(email, "Password Reset - Shofy", "<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
+//                        "      <h1\n" +
+//                        "        style=\"font-family: monospace; font-weight: bolder\"\n" +
+//                        "      >\n" +
+//                        "        SHOFY - Password Reset\n" +
+//                        "    </h1>\n" +
+//                        "      <table style=\"font-family: monospace\">\n" +
+//                        "        <tr>\n" +
+//                        "          <td>Name:</td>\n" +
+//                        "          <td>" + userByEmail.getFirstName() + "</td>\n" +
+//                        "        </tr>\n" +
+//                        "        <tr>\n" +
+//                        "          <td>Email:</td>\n" +
+//                        "          <td>" + userByEmail.getEmail() + "</td>\n" +
+//                        "        </tr>\n" +
+//                        "      </table>\n" +
+//                        "      <br />\n" +
+//                        "      <span style=\"font-family: monospace; color: gray;\">Please press the button RESET PASSWORD</span>\n" +
+//                        "      <br>\n" +
+//                        "      <a\n" +
+//                        "        href=\"http://localhost:8080/shofy/auth/reset-password?code=" + uuid + "\"\n" +
+//                        "        style=\"\n" +
+//                        "          background-color: crimson;\n" +
+//                        "          border: none;\n" +
+//                        "          color: white;\n" +
+//                        "          padding: 10px 50px;\n" +
+//                        "          border-radius: 5px;\n" +
+//                        "          text-decoration: none;\n" +
+//                        "          text-transform: uppercase;\n" +
+//                        "          font-family: monospace;\n" +
+//                        "          letter-spacing: 1px;\n" +
+//                        "        \"\n" +
+//                        "        >Reset Password</a\n" +
+//                        "      >\n" +
+//                        "    </div>");
 
                 return "Password reset link sent to your email";
             } else {
@@ -336,6 +343,18 @@ public class AuthService {
             return "success";
         } catch (Exception e) {
             throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, "Error occurred while logging out");
+        }
+    }
+
+    public LoginRespDTO refreshToken(String refreshToken) {
+        User user = userService.getUserByEmail(jwtTokenUtil.getUsername(refreshToken));
+
+        if (!jwtTokenUtil.validateToken(refreshToken, user)) {
+            throw new CustomException(Response.Status.UNAUTHORIZED, "Invalid refresh token");
+        } else {
+            String accessToken = jwtTokenUtil.generateAccessToken(user);
+            Date expireDate = jwtTokenUtil.getExpireDate(accessToken);
+            return new LoginRespDTO(accessToken, refreshToken, expireDate.toString());
         }
     }
 }

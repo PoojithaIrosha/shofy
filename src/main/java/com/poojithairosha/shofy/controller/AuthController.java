@@ -5,6 +5,7 @@ import com.poojithairosha.shofy.dto.LoginRespDTO;
 import com.poojithairosha.shofy.dto.RPReqDTO;
 import com.poojithairosha.shofy.dto.RegisterReqDTO;
 import com.poojithairosha.shofy.dto.UpdatePasswordDTO;
+import com.poojithairosha.shofy.model.user.User;
 import com.poojithairosha.shofy.service.AuthService;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.swing.text.View;
 import java.net.URI;
+import java.util.Date;
 
 @Path("/auth")
 public class AuthController {
@@ -104,4 +106,12 @@ public class AuthController {
     public Response logout() {
         return Response.ok().entity(authService.logout()).build();
     }
+
+    @Path("/refresh-token")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response refresh(@FormParam("refreshToken") String refreshToken) {
+        return Response.ok().entity(authService.refreshToken(refreshToken)).build();
+    }
+
 }
