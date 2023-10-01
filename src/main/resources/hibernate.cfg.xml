@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/shofy?useSSL=false&amp;allowPublicKeyRetrieval=true</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping class="com.poojithairosha.shofy.model.user.User"/>
+
+        <mapping class="com.poojithairosha.shofy.model.product.ProductBrand"/>
+        <mapping class="com.poojithairosha.shofy.model.product.ProductCategory"/>
+        <mapping class="com.poojithairosha.shofy.model.product.ProductColors"/>
+        <mapping class="com.poojithairosha.shofy.model.product.ProductImages"/>
+        <mapping class="com.poojithairosha.shofy.model.product.Product"/>
+
+        <mapping class="com.poojithairosha.shofy.model.cart.Cart"/>
+        <mapping class="com.poojithairosha.shofy.model.cart.CartItem"/>
+
+        <mapping class="com.poojithairosha.shofy.model.wishlist.Wishlist"/>
+        <mapping class="com.poojithairosha.shofy.model.wishlist.WishlistItem"/>
+
+        <mapping class="com.poojithairosha.shofy.model.order.Order"/>
+        <mapping class="com.poojithairosha.shofy.model.order.OrderItem"/>
+        <mapping class="com.poojithairosha.shofy.model.order.DeliveryFee"/>
+    </session-factory>
+</hibernate-configuration>
