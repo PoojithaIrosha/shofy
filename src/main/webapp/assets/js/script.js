@@ -8,23 +8,23 @@ function signUp() {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
 
-    if (fname.value == "") {
+    if (fname.value === "") {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Please enter first name";
         return;
-    } else if (lname.value == "") {
+    } else if (lname.value === "") {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Please enter last name";
         return;
-    } else if (mobile.value == "") {
+    } else if (mobile.value === "") {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Please enter mobile number";
         return;
-    } else if (email.value == "") {
+    } else if (email.value === "") {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Please enter email address";
         return;
-    } else if (password.value == "") {
+    } else if (password.value === "") {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Please enter password";
         return;
@@ -68,41 +68,48 @@ function signIn() {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
 
-    const formData = new FormData();
-    formData.append("email", email.value);
-    formData.append("password", password.value);
+    if (email.value === "") {
+        showToast("Please enter email address", "Error");
+    } else if (password.value === "") {
+        showToast("Please enter password", "Error");
+    } else {
 
-    const url = `${BASE_URL}auth/login`;
-    fetch(url, {
-        method: "POST",
-        body: formData,
-    }).then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            return Promise.reject(response);
-        }
-    }).then(data => {
-        localStorage.setItem("user", JSON.stringify(data));
+        const formData = new FormData();
+        formData.append("email", email.value);
+        formData.append("password", password.value);
 
-        window.location = `${BASE_URL}`;
-    }).catch(error => {
-        error.text().then((err) => {
-            showToast(err, "Error");
-        })
-    })
+        const url = `${BASE_URL}auth/login`;
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return Promise.reject(response);
+            }
+        }).then(data => {
+            localStorage.setItem("user", JSON.stringify(data));
+
+            window.location = `${BASE_URL}`;
+        }).catch(error => {
+            error.text().then((err) => {
+                showToast(err, "Error");
+            })
+        });
+    }
 }
 
 /* ====================
    Show Toast
    ==================== */
 function showToast(message, status) {
+    new Audio(`${BASE_URL}assets/sounds/notificare.mp3`).play();
+
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById("toast"));
     document.getElementById("toast-body").innerHTML = message;
     document.getElementById("toast-status").innerHTML = status;
     toastBootstrap.show();
-
-    new Audio("assets/sounds/notificare.mp3").play();
 }
 
 /* ====================
@@ -127,6 +134,9 @@ function googleSignIn(response) {
     xhr.send('idtoken=' + encodedJwt);
 }
 
+/* ====================
+   Refresh Token
+   ==================== */
 function refreshToken() {
     const userJson = localStorage.getItem("user");
     if (userJson) {
@@ -159,26 +169,33 @@ function refreshToken() {
    Forgot Password
    ==================== */
 function forgotPassword() {
-    const form = new FormData();
-    form.append("email", document.getElementById("email").value);
 
-    fetch(`${BASE_URL}auth/forgot-password`, {
-        method: "POST",
-        body: form,
-    }).then(resp => {
-        if (resp.ok) {
-            return resp.text();
-        } else {
-            return Promise.reject(resp);
-        }
-    }).then(data => {
-        document.querySelector("#sendBtn").innerHTML = "Resend";
-        showToast(data, "Success");
-    }).catch(error => {
-        error.text().then((err) => {
-            showToast(err, "Error");
+    const email = document.getElementById("email").value;
+
+    if (email === "") {
+        showToast("Please enter email address", "Error");
+    } else {
+        const form = new FormData();
+        form.append("email", email);
+
+        fetch(`${BASE_URL}auth/forgot-password`, {
+            method: "POST",
+            body: form,
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.text();
+            } else {
+                return Promise.reject(resp);
+            }
+        }).then(data => {
+            document.querySelector("#sendBtn").innerHTML = "Resend";
+            showToast(data, "Success");
+        }).catch(error => {
+            error.text().then((err) => {
+                showToast(err, "Error");
+            });
         });
-    });
+    }
 }
 
 /* ====================
@@ -189,7 +206,15 @@ function resetPassword() {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
 
-    if (password !== confirmPassword) {
+    if (code === "") {
+        document.querySelector("#error-msg").classList.remove("d-none");
+        document.querySelector("#error-msg span").innerHTML = "Please enter verification code";
+        return;
+    } else if(password === "" || confirmPassword === "") {
+        document.querySelector("#error-msg").classList.remove("d-none");
+        document.querySelector("#error-msg span").innerHTML = "Please enter password and confirm password";
+        return;
+    } else if (password !== confirmPassword) {
         document.querySelector("#error-msg").classList.remove("d-none");
         document.querySelector("#error-msg span").innerHTML = "Password and confirm password does not match";
         return;
@@ -227,6 +252,11 @@ function updatePassword(email) {
     const oldPassword = document.getElementById("old-pass").value;
     const newPassword = document.getElementById("new-pass").value;
     const confirmPassword = document.getElementById("con-new-pass").value;
+
+    if(oldPassword === "" || newPassword === "" || confirmPassword === "") {
+        showToast("Please enter all the fields", "Error");
+        return;
+    }
 
     if (newPassword !== confirmPassword) {
         showToast("Password and confirm password does not match", "Error");
@@ -340,30 +370,6 @@ function buyNowCheckout(productId) {
 
         window.location = `${BASE_URL}user/checkout/buy-now?id=${productId}&qty=${qty}&colorId=${colorId}`;
 
-        // const form = new FormData();
-        // form.append("id", productId);
-        // form.append("qty", qty);
-        // form.append("colorId", colorId);
-        //
-        // fetch(`${BASE_URL}user/checkout/buy-now`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Authorization": `Bearer ${JSON.parse(user).accessToken}`,
-        //     },
-        //     body: form,
-        // }).then(resp => {
-        //     if (resp.ok) {
-        //         return resp.text();
-        //     } else {
-        //         return Promise.reject(resp);
-        //     }
-        // }).then(data => {
-        //     showToast(data, "Success");
-        // }).catch(error => {
-        //     error.text().then((err) => {
-        //         showToast(err, "Error");
-        //     });
-        // });
     } else {
         showToast("Please login to add products to cart", "Error");
     }
@@ -506,9 +512,9 @@ function changeProfileImage(event) {
         method: "PUT",
         body: form,
     }).then(resp => {
-        if(resp.ok) {
+        if (resp.ok) {
             return resp.text();
-        }else {
+        } else {
             return Promise.reject(resp);
         }
     }).then(data => {
@@ -523,6 +529,10 @@ function changeProfileImage(event) {
     });
 }
 
+
+/* ====================
+   Qty Increment & Decrement
+   ==================== */
 function incrementQty(id) {
     const qty = document.getElementById(`qty-${id}`);
     qty.value = Number.parseInt(qty.value) + 1;
@@ -598,6 +608,9 @@ function cartQtyDecrement(productId, cartItemId) {
 
 }
 
+/* ====================
+   Qty Update - Key UP
+   ==================== */
 function cartQtyKeyUp(productId, cartItemId) {
 
     const qty = document.getElementById(`qty-${cartItemId}`);
@@ -628,6 +641,9 @@ function cartQtyKeyUp(productId, cartItemId) {
 
 }
 
+/* ====================
+   Update Qty Button
+   ==================== */
 function updateQtyBtn(itemId) {
     const qty = document.getElementById(`qty-${itemId}`);
     const updateBtn = document.getElementById("update-btn");
@@ -641,6 +657,9 @@ function updateQtyBtn(itemId) {
 
 }
 
+/* ====================
+   Update QTY
+   ==================== */
 function updateQty(itemId, qty) {
     const form = new FormData();
     form.append("id", itemId);
@@ -890,8 +909,6 @@ function checkout() {
 /* ====================
    Buy Now
    ==================== */
-
-
 function buyNow(productId, qty, colorId) {
     const amount = document.getElementById("total-unformatted").innerHTML;
     const firstName = document.getElementById("firstName");

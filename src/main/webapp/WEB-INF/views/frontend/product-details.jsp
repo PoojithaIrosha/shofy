@@ -42,8 +42,9 @@
                                     <div class="nav nav-tabs flex-sm-column " id="productDetailsNavThumb"
                                          role="tablist">
 
-                                        <c:forEach items="${it.images}" var="image">
-                                            <button class="nav-link active" id="nav-${image.id}-tab"
+                                        <c:forEach items="${it.images}" var="image" varStatus="num">
+                                            <button class="nav-link ${num.index == 0 ? "active" : ""}"
+                                                    id="nav-${image.id}-tab"
                                                     data-bs-toggle="tab"
                                                     data-bs-target="#nav-${image.id}" type="button" role="tab"
                                                     aria-controls="nav-${image.id}"
@@ -55,8 +56,8 @@
                                     </div>
                                 </nav>
                                 <div class="tab-content m-img" id="productDetailsNavContent">
-                                    <c:forEach items="${it.images}" var="image">
-                                        <div class="tab-pane fade show active" id="nav-${image.id}" role="tabpanel"
+                                    <c:forEach items="${it.images}" var="image" varStatus="status">
+                                        <div class="tab-pane fade ${status.index == 0 ? "show active" : ""}" id="nav-${image.id}" role="tabpanel"
                                              aria-labelledby="nav-${image.id}-tab" tabindex="0">
                                             <div class="tp-product-details-nav-main-thumb">
                                                 <img src="${image.imageURL}"
@@ -111,14 +112,17 @@
                                     <div class="tp-product-details-variation-item">
                                         <h4 class="tp-product-details-variation-title">Color :</h4>
                                         <div class="tp-product-details-variation-list">
-                                            <c:forEach items="${it.colors}" var="color" varStatus="loop">
-                                                <button id="color-btn-${loop.index}" type="button" class="color tp-color-variation-btn" onclick="selectColor('${loop.index}');">
-                                                    <span class="d-none" id="color-id">${color.id}</span>
-                                                    <span data-bg-color="${color.color}"></span>
-                                                    <span class="tp-color-variation-tootltip">${color.color}</span>
-                                                </button>
-                                                </button>
-                                            </c:forEach>
+                                            <c:if test="${it.colors.size() > 0}">
+                                                <c:forEach items="${it.colors}" var="color" varStatus="loop">
+                                                    <button id="color-btn-${loop.index}" type="button"
+                                                            class="color tp-color-variation-btn"
+                                                            onclick="selectColor('${loop.index}');">
+                                                        <span class="d-none" id="color-id">${color.id}</span>
+                                                        <span data-bg-color="${color.color}"></span>
+                                                        <span class="tp-color-variation-tootltip">${color.color}</span>
+                                                    </button>
+                                                </c:forEach>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
@@ -129,23 +133,23 @@
                                     <div class="tp-product-details-action-item-wrapper d-flex align-items-center">
                                         <div class="tp-product-details-quantity">
                                             <div class="tp-product-quantity mb-15 mr-15">
-                                       <button class="tp-cart-minus" onclick="decrementQty('${it.id}');">
-                                          <svg width="11" height="2" viewBox="0 0 11 2" fill="none"
-                                               xmlns="http://www.w3.org/2000/svg">
-                                             <path d="M1 1H10" stroke="currentColor" stroke-width="1.5"
-                                                   stroke-linecap="round" stroke-linejoin="round"/>
-                                          </svg>
-                                       </button>
+                                                <button class="tp-cart-minus" onclick="decrementQty('${it.id}');">
+                                                    <svg width="11" height="2" viewBox="0 0 11 2" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1 1H10" stroke="currentColor" stroke-width="1.5"
+                                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </button>
                                                 <input id="qty-${it.id}" class="tp-cart-input" type="text" value="1">
                                                 <button class="tp-cart-plus" onclick="incrementQty('${it.id}');">
-                                          <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
-                                               xmlns="http://www.w3.org/2000/svg">
-                                             <path d="M1 6H10" stroke="currentColor" stroke-width="1.5"
-                                                   stroke-linecap="round" stroke-linejoin="round"/>
-                                             <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5"
-                                                   stroke-linecap="round" stroke-linejoin="round"/>
-                                          </svg>
-                                       </button>
+                                                    <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M1 6H10" stroke="currentColor" stroke-width="1.5"
+                                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                                        <path d="M5.5 10.5V1.5" stroke="currentColor" stroke-width="1.5"
+                                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="tp-product-details-add-to-cart mb-15 w-100">
@@ -154,7 +158,9 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <button class="tp-product-details-buy-now-btn w-100" onclick="buyNowCheckout('${it.id}');">Buy Now</button>
+                                    <button class="tp-product-details-buy-now-btn w-100"
+                                            onclick="buyNowCheckout('${it.id}');">Buy Now
+                                    </button>
                                 </div>
                                 <div class="tp-product-details-action-sm">
                                     <button type="button" class="tp-product-details-action-sm-btn">
@@ -175,7 +181,8 @@
                                         </svg>
                                         Compare
                                     </button>
-                                    <button type="button" class="tp-product-details-action-sm-btn" onclick="addToWishlist('${it.id}');">
+                                    <button type="button" class="tp-product-details-action-sm-btn"
+                                            onclick="addToWishlist('${it.id}');">
                                         <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" clip-rule="evenodd"

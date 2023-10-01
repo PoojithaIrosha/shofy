@@ -1,6 +1,7 @@
 package com.poojithairosha.shofy.mail;
 
 import com.poojithairosha.shofy.util.Env;
+import io.rocketbase.mail.model.HtmlTextEmail;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -23,41 +24,22 @@ public class ForgotPasswordMail extends Mailable {
     public void buildMessage(Message message) throws MessagingException {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         message.setSubject("Forgot Password - Shofy");
-        message.setContent("<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
-                "      <h1\n" +
-                "        style=\"font-family: monospace; font-weight: bolder\"\n" +
-                "      >\n" +
-                "        SHOFY - Password Reset\n" +
-                "    </h1>\n" +
-                "      <table style=\"font-family: monospace\">\n" +
-                "        <tr>\n" +
-                "          <td>Name:</td>\n" +
-                "          <td>" + firstName + "</td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "          <td>Email:</td>\n" +
-                "          <td>" + email + "</td>\n" +
-                "        </tr>\n" +
-                "      </table>\n" +
-                "      <br />\n" +
-                "      <span style=\"font-family: monospace; color: gray;\">Please press the button RESET PASSWORD</span>\n" +
-                "      <br>\n" +
-                "      <a\n" +
-                "        href=\"" + Env.get("app.baseurl") + "/auth/reset-password?code=" + verificationCode + "\"\n" +
-                "        style=\"\n" +
-                "          background-color: crimson;\n" +
-                "          border: none;\n" +
-                "          color: white;\n" +
-                "          padding: 10px 50px;\n" +
-                "          border-radius: 5px;\n" +
-                "          text-decoration: none;\n" +
-                "          text-transform: uppercase;\n" +
-                "          font-family: monospace;\n" +
-                "          letter-spacing: 1px;\n" +
-                "        \"\n" +
-                "        >Reset Password</a\n" +
-                "      >\n" +
-                "    </div>", "text/html");
+
+        HtmlTextEmail build = getEmailTemplateBuilder().header().logo("https://i.ibb.co/PCzXXMb/logo.png").logoHeight(60)
+                .and()
+                .text("Hello, " + firstName + "!").h1().center().and()
+                .text("We are sending this email because you requested a password reset. Click on the link to create a new password").and()
+                .button("Do this Next", Env.get("app.baseurl") + "/auth/reset-password?code=" + verificationCode).blue().and()
+                .html("If you have any questions, feel free to <a href=\"mailto:info@shofy.com\">email our customer success team</a>. (We're lightning quick at replying.)").and()
+                .text("If you didn't request a password reset, you can ignore this email. Your password will not be changed").and()
+                .copyright("shofy").url("https://www.shofy.com").suffix(". All rights reserved.").and()
+                .footerText("[Shofy, LLC]\n" +
+                        "1234 Street Rd.\n" +
+                        "Suite 1234").and()
+                .build();
+
+
+        message.setContent(build.getHtml(), "text/html");
 
     }
 }

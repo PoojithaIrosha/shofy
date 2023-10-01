@@ -17,7 +17,7 @@ public class ProductImages implements Serializable {
     private String imageURL;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

@@ -19,7 +19,7 @@ public class ProductBrand implements Serializable {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "brand")
     private List<Product> products;
 
     public ProductBrand() {

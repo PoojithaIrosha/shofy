@@ -38,6 +38,7 @@
                                  <span>
                                     <svg width="52" height="52" viewBox="0 0 52 52" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
+                                         xmlns="http://www.w3.org/2000/svg">
                                        <path d="M46 26V51H6V26" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"/>
                                        <path d="M51 13.5H1V26H51V13.5Z" stroke="currentColor" stroke-width="2"

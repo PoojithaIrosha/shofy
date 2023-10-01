@@ -3,7 +3,6 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.poojithairosha.shofy.model.product.ProductCategory" %>
-<%@ page import="com.poojithairosha.shofy.util.ImageURIUtil" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%

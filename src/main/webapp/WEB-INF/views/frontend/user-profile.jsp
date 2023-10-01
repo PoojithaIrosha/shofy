@@ -1,7 +1,4 @@
-<%@ page import="com.poojithairosha.shofy.util.ImageURIUtil" %>
 <%@ page import="com.poojithairosha.shofy.model.user.User" %>
-<%@ page import="java.util.List" %>
-<%@ page import="com.poojithairosha.shofy.model.order.Order" %>
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>

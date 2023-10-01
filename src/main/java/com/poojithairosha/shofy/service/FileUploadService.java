@@ -58,7 +58,6 @@ public class FileUploadService {
             Files.walk(UPLOAD_PATH).sorted(Comparator.reverseOrder())
                     .forEach(path -> {
                         File f = path.toFile();
-                        System.out.println(f.getName());
 
                         String[] split = file.split("/");
                         String filename = split[split.length - 1];

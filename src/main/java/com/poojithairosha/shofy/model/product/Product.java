@@ -27,11 +27,11 @@ public class Product extends BaseEntity {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "brand_id", nullable = false)
     private ProductBrand brand;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", nullable = false)
     private ProductCategory category;
 
@@ -40,6 +40,9 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<ProductImages> images;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
 
     public Product() {
     }
@@ -123,6 +126,14 @@ public class Product extends BaseEntity {
 
     public void setImages(List<ProductImages> images) {
         this.images = images;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.poojithairosha.shofy.mail;
 
 import com.poojithairosha.shofy.provider.MailServiceProvider;
 import com.poojithairosha.shofy.util.Env;
+import io.rocketbase.mail.EmailTemplateBuilder;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -13,10 +14,11 @@ import jakarta.mail.internet.MimeMessage;
 public abstract class Mailable implements Runnable {
 
     private final MailServiceProvider mailServiceProvider;
-
+    private EmailTemplateBuilder.EmailTemplateConfigBuilder emailTemplateBuilder;
 
     public Mailable() {
         this.mailServiceProvider = MailServiceProvider.getInstance();
+        emailTemplateBuilder = EmailTemplateBuilder.builder();
     }
 
     @Override
@@ -38,4 +40,8 @@ public abstract class Mailable implements Runnable {
     }
 
     public abstract void buildMessage(Message message) throws MessagingException;
+
+    public EmailTemplateBuilder.EmailTemplateConfigBuilder getEmailTemplateBuilder() {
+        return emailTemplateBuilder;
+    }
 }

@@ -22,9 +22,7 @@ import org.hibernate.Session;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -561,7 +559,7 @@ public class CheckoutService {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 
-            Product productById = productService.getProductById(id);
+            Product productById = productService.getActiveProductById(id);
             User user = (User) request.getSession().getAttribute("user");
 
             ProductColors productColors = session.createQuery("from ProductColors c where c.id=:id", ProductColors.class).setParameter("id", color).uniqueResult();

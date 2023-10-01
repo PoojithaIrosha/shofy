@@ -30,7 +30,7 @@ public class ProductController {
     @GET
     @Path("/{id}")
     public Viewable getProduct(@PathParam("id") Long id) {
-        Product product = productService.getProductById(id);
+        Product product = productService.getActiveProductById(id);
         return new Viewable("/frontend/product-details", product);
     }
 
@@ -38,7 +38,7 @@ public class ProductController {
     @Path("/get/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getProductObj(@PathParam("id") Long id) {
-        return Response.ok().entity(productService.getProductById(id)).build();
+        return Response.ok().entity(productService.getActiveProductById(id)).build();
     }
 
     @GET

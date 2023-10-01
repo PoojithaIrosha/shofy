@@ -1,6 +1,7 @@
 package com.poojithairosha.shofy.mail;
 
 import com.poojithairosha.shofy.util.Env;
+import io.rocketbase.mail.model.HtmlTextEmail;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -22,40 +23,29 @@ public class EmailVerificationMail extends Mailable {
     public void buildMessage(Message message) throws MessagingException {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
         message.setSubject("Email Verification - Shofy");
-        message.setContent("<div style=\"display: flex; flex-direction:column; align-items: center;\">\n" +
-                "      <h1\n" +
-                "        style=\"font-family: monospace; font-weight: bolder\"\n" +
-                "      >\n" +
-                "        SHOFY - Email Verification\n" +
-                "    </h1>\n" +
-                "      <table style=\"font-family: monospace\">\n" +
-                "        <tr>\n" +
-                "          <td>Name:</td>\n" +
-                "          <td>" + firstName + "</td>\n" +
-                "        </tr>\n" +
-                "        <tr>\n" +
-                "          <td>Email:</td>\n" +
-                "          <td>" + email + "</td>\n" +
-                "        </tr>\n" +
-                "      </table>\n" +
-                "      <br />\n" +
-                "      <span style=\"font-family: monospace; color: gray;\">Please verify your email address by pressing the below button</span>\n" +
-                "      <br>\n" +
-                "      <a\n" +
-                "        href=\"" + Env.get("app.baseurl") + "/auth/verify-email?code=" + verificationCode + "\"\n" +
-                "        style=\"\n" +
-                "          background-color: crimson;\n" +
-                "          border: none;\n" +
-                "          color: white;\n" +
-                "          padding: 10px 50px;\n" +
-                "          border-radius: 5px;\n" +
-                "          text-decoration: none;\n" +
-                "          text-transform: uppercase;\n" +
-                "          font-family: monospace;\n" +
-                "          letter-spacing: 1px;\n" +
-                "        \"\n" +
-                "        >Verify Email</a\n" +
-                "      >\n" +
-                "    </div>", "text/html");
+
+        HtmlTextEmail build = getEmailTemplateBuilder()
+                .header()
+                .logo("https://i.ibb.co/PCzXXMb/logo.png")
+                .logoHeight(80)
+                .and()
+                .text("Welcome, " + firstName + "!").h1().center().and()
+                .text("Thanks for trying Shofy. We’re thrilled to have you on board. To get the most out of Shofy, do this primary next step:").and()
+                .button("Do this Next", Env.get("app.baseurl") + "/auth/verify-email?code=" + verificationCode).blue().and()
+                .text("For reference, here's your login information:").and()
+                .attribute()
+                .keyValue("Login Page", Env.get("app.baseurl") + "/auth/login")
+                .keyValue("Username", email)
+                .and()
+                .html("If you have any questions, feel free to <a href=\"mailto:info@shofy.com\">email our customer success team</a>. (We're lightning quick at replying.)").and()
+                .text("Cheers,\n" +
+                        "The Shofy Team").and()
+                .copyright("Shofy").url("https://www.shofy.com").suffix(". All rights reserved.").and()
+                .footerText("Shofy \n" +
+                        "1234 Street Rd.\n" +
+                        "Suite 1234").and()
+                .build();
+
+        message.setContent(build.getHtml(), "text/html");
     }
 }
