@@ -5,7 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Shofy</title>
+    <layout:block name="title">
+        <title>Home - Shofy</title>
+    </layout:block>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,6 +23,8 @@
     <link rel="stylesheet" href="${BASE_URL}assets/css/flaticon_shofy.css">
     <link rel="stylesheet" href="${BASE_URL}assets/css/spacing.css">
     <link rel="stylesheet" href="${BASE_URL}assets/css/main.css">
+
+    <script src="${BASE_URL}assets/js/profile-image.js"></script>
 </head>
 <body>
 <!--[if lte IE 9]>
@@ -254,28 +258,28 @@
 
 <layout:block name="scripts">
 
-<!-- JS here -->
-<script src="${BASE_URL}assets/js/vendor/jquery.js"></script>
-<script src="${BASE_URL}assets/js/vendor/waypoints.js"></script>
-<script src="${BASE_URL}assets/js/bootstrap-bundle.js"></script>
-<script src="${BASE_URL}assets/js/bootstrap-min.js"></script>
-<script src="${BASE_URL}assets/js/meanmenu.js"></script>
-<script src="${BASE_URL}assets/js/swiper-bundle.js"></script>
-<script src="${BASE_URL}assets/js/slick.js"></script>
-<script src="${BASE_URL}assets/js/range-slider.js"></script>
-<script src="${BASE_URL}assets/js/magnific-popup.js"></script>
-<script src="${BASE_URL}assets/js/nice-select.js"></script>
-<script src="${BASE_URL}assets/js/purecounter.js"></script>
-<script src="${BASE_URL}assets/js/countdown.js"></script>
-<script src="${BASE_URL}assets/js/wow.js"></script>
-<script src="${BASE_URL}assets/js/isotope-pkgd.js"></script>
-<script src="${BASE_URL}assets/js/imagesloaded-pkgd.js"></script>
-<script src="${BASE_URL}assets/js/ajax-form.js"></script>
-<script src="${BASE_URL}assets/js/main.js"></script>
-<script src="${BASE_URL}assets/js/script.js"></script>
-<script type="text/javascript">
-    const BASE_URL = '${BASE_URL}';
-</script>
+    <!-- JS here -->
+    <script src="${BASE_URL}assets/js/vendor/jquery.js"></script>
+    <script src="${BASE_URL}assets/js/vendor/waypoints.js"></script>
+    <script src="${BASE_URL}assets/js/bootstrap-bundle.js"></script>
+    <script src="${BASE_URL}assets/js/bootstrap-min.js"></script>
+    <script src="${BASE_URL}assets/js/meanmenu.js"></script>
+    <script src="${BASE_URL}assets/js/swiper-bundle.js"></script>
+    <script src="${BASE_URL}assets/js/slick.js"></script>
+    <script src="${BASE_URL}assets/js/range-slider.js"></script>
+    <script src="${BASE_URL}assets/js/magnific-popup.js"></script>
+    <script src="${BASE_URL}assets/js/nice-select.js"></script>
+    <script src="${BASE_URL}assets/js/purecounter.js"></script>
+    <script src="${BASE_URL}assets/js/countdown.js"></script>
+    <script src="${BASE_URL}assets/js/wow.js"></script>
+    <script src="${BASE_URL}assets/js/isotope-pkgd.js"></script>
+    <script src="${BASE_URL}assets/js/imagesloaded-pkgd.js"></script>
+    <script src="${BASE_URL}assets/js/ajax-form.js"></script>
+    <script src="${BASE_URL}assets/js/main.js"></script>
+    <script src="${BASE_URL}assets/js/script.js"></script>
+    <script type="text/javascript">
+        const BASE_URL = '${BASE_URL}';
+    </script>
 </layout:block>
 </body>
 

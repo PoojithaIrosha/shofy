@@ -3,6 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>Order History - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">

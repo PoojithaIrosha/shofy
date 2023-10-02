@@ -38,7 +38,7 @@
                                         </p>
 
                                         <div class="tp-slider-btn">
-                                            <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                                            <a href="${BASE_URL}products" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
                                                 <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16 6.99976L1 6.99976" stroke="currentColor"
@@ -89,7 +89,7 @@
                                         </p>
 
                                         <div class="tp-slider-btn">
-                                            <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                                            <a href="${BASE_URL}products" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
                                                 <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16 6.99976L1 6.99976" stroke="currentColor"
@@ -141,7 +141,7 @@
                                         </p>
 
                                         <div class="tp-slider-btn">
-                                            <a href="shop.html" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
+                                            <a href="${BASE_URL}products" class="tp-btn tp-btn-2 tp-btn-white">Shop Now
                                                 <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
                                                      xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M16 6.99976L1 6.99976" stroke="currentColor"
@@ -190,14 +190,14 @@
                     <div class="col">
                         <div class="tp-product-category-item text-center mb-40">
                             <div class="tp-product-category-thumb fix">
-                                <a href="shop-category.html">
+                                <a href="#">
                                     <img src="${BASE_URL}assets/img/product/category/product-cat-1.png"
                                          alt="product-category">
                                 </a>
                             </div>
                             <div class="tp-product-category-content">
                                 <h3 class="tp-product-category-title">
-                                    <a href="shop-category.html">Headphones</a>
+                                    <a href="${BASE_URL}products">Headphones</a>
                                 </h3>
                                 <p>20 Product</p>
                             </div>
@@ -206,14 +206,14 @@
                     <div class="col">
                         <div class="tp-product-category-item text-center mb-40">
                             <div class="tp-product-category-thumb fix">
-                                <a href="shop-category.html">
+                                <a href="${BASE_URL}products">
                                     <img src="${BASE_URL}assets/img/product/category/product-cat-2.png"
                                          alt="product-category">
                                 </a>
                             </div>
                             <div class="tp-product-category-content">
                                 <h3 class="tp-product-category-title">
-                                    <a href="shop-category.html">Mobile Phone</a>
+                                    <a href="${BASE_URL}products">Mobile Phone</a>
                                 </h3>
                                 <p>25 Product</p>
                             </div>
@@ -222,14 +222,14 @@
                     <div class="col">
                         <div class="tp-product-category-item text-center mb-40">
                             <div class="tp-product-category-thumb fix">
-                                <a href="shop-category.html">
+                                <a href="${BASE_URL}products">
                                     <img src="${BASE_URL}assets/img/product/category/product-cat-3.png"
                                          alt="product-category">
                                 </a>
                             </div>
                             <div class="tp-product-category-content">
                                 <h3 class="tp-product-category-title">
-                                    <a href="shop-category.html">CPU Heat Pipes</a>
+                                    <a href="${BASE_URL}products">CPU Heat Pipes</a>
                                 </h3>
                                 <p>57 Product</p>
                             </div>
@@ -238,14 +238,14 @@
                     <div class="col">
                         <div class="tp-product-category-item text-center mb-40">
                             <div class="tp-product-category-thumb fix">
-                                <a href="shop-category.html">
+                                <a href="${BASE_URL}products">
                                     <img src="${BASE_URL}assets/img/product/category/product-cat-4.png"
                                          alt="product-category">
                                 </a>
                             </div>
                             <div class="tp-product-category-content">
                                 <h3 class="tp-product-category-title">
-                                    <a href="shop-category.html">Smart Watch</a>
+                                    <a href="${BASE_URL}products">Smart Watch</a>
                                 </h3>
                                 <p>44 Product</p>
                             </div>
@@ -254,14 +254,14 @@
                     <div class="col">
                         <div class="tp-product-category-item text-center mb-40">
                             <div class="tp-product-category-thumb fix">
-                                <a href="shop-category.html">
+                                <a href="${BASE_URL}products">
                                     <img src="${BASE_URL}assets/img/product/category/product-cat-5.png"
                                          alt="product-category">
                                 </a>
                             </div>
                             <div class="tp-product-category-content">
                                 <h3 class="tp-product-category-title">
-                                    <a href="shop-category.html">With Bluetooth </a>
+                                    <a href="${BASE_URL}products">With Bluetooth </a>
                                 </h3>
                                 <p>81 Product</p>
                             </div>
@@ -545,10 +545,10 @@
                             <div class="tp-banner-content">
                                 <span>Sale 20% off all store</span>
                                 <h3 class="tp-banner-title">
-                                    <a href="product-details.html">Smartphone <br> BLU G91 Pro 2022</a>
+                                    <a href="#">Smartphone <br> BLU G91 Pro 2022</a>
                                 </h3>
                                 <div class="tp-banner-btn">
-                                    <a href="product-details.html" class="tp-link-btn">Shop Now
+                                    <a href="${BASE_URL}products" class="tp-link-btn">Shop Now
                                         <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor"
@@ -567,11 +567,11 @@
                                  data-background="${BASE_URL}assets/img/product/banner/product-banner-2.jpg"></div>
                             <div class="tp-banner-content">
                                 <h3 class="tp-banner-title">
-                                    <a href="product-details.html">HyperX Cloud II <br> Wireless</a>
+                                    <a href="#">HyperX Cloud II <br> Wireless</a>
                                 </h3>
                                 <p>Sale 35% off</p>
                                 <div class="tp-banner-btn">
-                                    <a href="product-details.html" class="tp-link-btn">Shop Now
+                                    <a href="#" class="tp-link-btn">Shop Now
                                         <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor"
@@ -607,7 +607,7 @@
                                                 <p class="new-price">$975.00</p>
                                             </div>
                                             <div class="tp-product-banner-btn">
-                                                <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
+                                                <a href="${BASE_URL}products" class="tp-btn tp-btn-2">Shop now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -638,7 +638,7 @@
                                                 <p class="new-price">$1199.00</p>
                                             </div>
                                             <div class="tp-product-banner-btn">
-                                                <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
+                                                <a href="${BASE_URL}products" class="tp-btn tp-btn-2">Shop now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -670,7 +670,7 @@
                                                 <p class="new-price">$1300.00</p>
                                             </div>
                                             <div class="tp-product-banner-btn">
-                                                <a href="shop.html" class="tp-btn tp-btn-2">Shop now</a>
+                                                <a href="${BASE_URL}products" class="tp-btn tp-btn-2">Shop now</a>
                                             </div>
                                         </div>
                                     </div>

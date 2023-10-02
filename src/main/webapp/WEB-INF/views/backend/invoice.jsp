@@ -4,6 +4,10 @@
 
 <layout:extends name="admin-base">
 
+    <layout:put block="title" type="REPLACE">
+        <title>Invoice - ${it.id} - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
         <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.order.Order"/>
 

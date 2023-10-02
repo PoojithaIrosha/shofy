@@ -1,11 +1,17 @@
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.product.Product"/>
+
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>${it.name} - Update - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
 
-        <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.product.Product"/>
 
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">

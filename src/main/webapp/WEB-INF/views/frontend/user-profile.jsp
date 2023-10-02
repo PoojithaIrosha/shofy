@@ -10,6 +10,11 @@
 %>
 
 <layout:extends name="base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>User Profile - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content" type="REPLACE">
         <!-- profile area start -->
         <section class="profile__area pt-120 pb-120">
@@ -90,8 +95,11 @@
 
                                                             <c:if test="${user.picture == null}">
                                                                 <div class="profile__main-thumb">
-                                                                    <img src="${BASE_URL}assets/img/users/user.png"
+                                                                    <img id="profile" src="${BASE_URL}assets/img/users/user.png"
                                                                          alt="">
+                                                                    <script>
+                                                                        document.getElementById("profile").src = new ProfileImage('${user.firstName} ${user.lastName}').png();
+                                                                    </script>
                                                                     <div class="profile__main-thumb-edit">
                                                                         <input id="profile-thumb-input"
                                                                                class="profile-img-popup" type="file"
@@ -609,6 +617,5 @@
             </div>
         </section>
         <!-- profile area end -->
-
     </layout:put>
 </layout:extends>

@@ -8,12 +8,14 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-    <title>Admin | Shofy</title>
+    <layout:block name="title">
+        <title>Admin | Shofy</title>
+    </layout:block>
 
     <meta name="description" content=""/>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="${BASE_URL}assets/admin/img/favicon/favicon.ico"/>
+    <link rel="shortcut icon" type="image/x-icon" href="${BASE_URL}assets/img/logo/favicon.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -44,6 +46,7 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="${BASE_URL}assets/admin/js/config.js"></script>
+    <script src="${BASE_URL}assets/js/profile-image.js"></script>
 </head>
 
 <body>
@@ -67,7 +70,7 @@
 </div>
 </div>--%>
 
-<div class="toast-container position-fixed top-0 end-0 p-3">
+<div class="toast-container position-fixed bottom-0 end-0 p-3 zindex-5">
     <div id="toast" class="bs-toast toast fade bg-dark" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
             <i class="bx bx-bell me-2"></i>

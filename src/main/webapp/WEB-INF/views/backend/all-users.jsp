@@ -3,6 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>User Management - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
@@ -25,7 +30,17 @@
                             </div>
                             <!-- Basic Bootstrap Table -->
                             <div class="card">
-                                <h5 class="card-header">User Management</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-header">User Management</h5>
+                                    <div class="me-3">
+                                        <form>
+                                            <input type="hidden" name="page" value="${(it.get("page"))}">
+                                            <input type="text" class="form-control" placeholder="Search..."
+                                                   name="search" value="${(it.get("search")) == "all" ? "" : (it.get("search"))}">
+                                        </form>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive text-nowrap">
                                     <table class="table">
                                         <thead>
@@ -64,8 +79,12 @@
                                                                      class="rounded-circle"/>
                                                             </c:if>
                                                             <c:if test="${user.picture == null}">
-                                                                <img src="${BASE_URL}assets/img/users/user.png" alt="Avatar"
-                                                                     class="rounded-circle"/>
+                                                                <img src="${BASE_URL}assets/img/users/user.png"
+                                                                     alt="Avatar"
+                                                                     class="rounded-circle profile-avatar-${user.id}"/>
+                                                                <script>
+                                                                    document.querySelector(".profile-avatar-${user.id}").src = new ProfileImage('${user.firstName} ${user.lastName}').png();
+                                                                </script>
                                                             </c:if>
 
                                                         </li>

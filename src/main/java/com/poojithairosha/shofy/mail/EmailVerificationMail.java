@@ -31,7 +31,7 @@ public class EmailVerificationMail extends Mailable {
                 .and()
                 .text("Welcome, " + firstName + "!").h1().center().and()
                 .text("Thanks for trying Shofy. We’re thrilled to have you on board. To get the most out of Shofy, do this primary next step:").and()
-                .button("Do this Next", Env.get("app.baseurl") + "/auth/verify-email?code=" + verificationCode).blue().and()
+                .button("Verify Email", Env.get("app.baseurl") + "/auth/verify-email?code=" + verificationCode).blue().and()
                 .text("For reference, here's your login information:").and()
                 .attribute()
                 .keyValue("Login Page", Env.get("app.baseurl") + "/auth/login")

@@ -29,7 +29,7 @@ public class ForgotPasswordMail extends Mailable {
                 .and()
                 .text("Hello, " + firstName + "!").h1().center().and()
                 .text("We are sending this email because you requested a password reset. Click on the link to create a new password").and()
-                .button("Do this Next", Env.get("app.baseurl") + "/auth/reset-password?code=" + verificationCode).blue().and()
+                .button("Reset Password", Env.get("app.baseurl") + "/auth/reset-password?code=" + verificationCode).blue().and()
                 .html("If you have any questions, feel free to <a href=\"mailto:info@shofy.com\">email our customer success team</a>. (We're lightning quick at replying.)").and()
                 .text("If you didn't request a password reset, you can ignore this email. Your password will not be changed").and()
                 .copyright("shofy").url("https://www.shofy.com").suffix(". All rights reserved.").and()

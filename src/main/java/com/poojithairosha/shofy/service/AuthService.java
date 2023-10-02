@@ -108,6 +108,7 @@ public class AuthService {
             newUser.setGoogleId(jwt.getString("sub"));
             newUser.setPicture(picture);
             newUser.setEmailVerifiedAt(emailVerified ? new Date().toString() : null);
+            newUser.setActive(true);
 
             try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                 session.beginTransaction();
@@ -125,6 +126,26 @@ public class AuthService {
             }
         } else {
             if (user.getUserType() == UserType.USER_GOOGLE) {
+
+                if(!user.isActive()) {
+                    throw new CustomException(Response.Status.BAD_REQUEST, "Your account has been disabled temporary");
+                }
+
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                user.setEmail(email);
+                user.setGoogleId(jwt.getString("sub"));
+                user.setPicture(picture);
+
+                try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+                    session.beginTransaction();
+                    session.merge(user);
+                    session.refresh(user);
+                    session.getTransaction().commit();
+                }catch (Exception e) {
+                    throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+                }
+
                 try {
                     LoginRespDTO loginRespDTO = getLoginRespDTO(user);
 

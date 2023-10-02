@@ -2,6 +2,11 @@
 
 <layout:extends name="base">
 
+
+  <layout:put block="title" type="REPLACE">
+    <title>Contact - Shofy</title>
+  </layout:put>
+
   <layout:put block="header" type="REPLACE">
     <jsp:include page="includes/header-2.jsp" />
   </layout:put>

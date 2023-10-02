@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.glassfish.jersey.server.mvc.Viewable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -30,8 +31,8 @@ public class ProductController {
     @GET
     @Path("/{id}")
     public Viewable getProduct(@PathParam("id") Long id) {
-        Product product = productService.getActiveProductById(id);
-        return new Viewable("/frontend/product-details", product);
+        Map<String, Object> productView = productService.getProductView(id);
+        return new Viewable("/frontend/product-details", productView);
     }
 
     @GET

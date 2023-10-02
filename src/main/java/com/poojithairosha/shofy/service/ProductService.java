@@ -367,4 +367,29 @@ public class ProductService {
             throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    public List<Product> getRelatedProducts(Long categoryId, Long productId) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            List<Product> resultList = session.createQuery("from Product p where p.category.id = :categoryId and p.id != :productId and p.active = :active", Product.class).setParameter("categoryId", categoryId).setParameter("productId", productId).setParameter("active", true).setMaxResults(4).getResultList();
+            session.getTransaction().commit();
+            return resultList;
+        } catch (Exception e) {
+            throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, "Product fetching failed");
+        }
+    }
+
+    public Map<String, Object> getProductView(Long id) {
+        Product product = getActiveProductById(id);
+
+        if(product == null) {
+            throw new CustomException(Response.Status.NOT_FOUND, "Product not found");
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("product", product);
+        result.put("relatedProducts", getRelatedProducts(product.getCategory().getId(), product.getId()));
+
+        return result;
+    }
 }

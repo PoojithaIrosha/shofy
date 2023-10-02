@@ -122,11 +122,15 @@ function googleSignIn(response) {
     xhr.open('POST', `${BASE_URL}auth/google`);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
-        console.log(xhr.responseText);
-        const data = JSON.parse(xhr.responseText);
 
-        localStorage.setItem("user", JSON.stringify(data));
-        window.location = `${BASE_URL}`;
+        if(xhr.status === 200) {
+            const data = JSON.parse(xhr.responseText);
+
+            localStorage.setItem("user", JSON.stringify(data));
+            window.location = `${BASE_URL}`;
+        }else {
+            showToast(xhr.responseText, "Error");
+        }
     };
     xhr.onerror = function () {
         showToast("Something went wrong. Please try again later.", "Error");

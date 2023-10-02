@@ -191,20 +191,11 @@
                                                          style="clip-path: circle(); margin-right: 10px"/>
                                             </c:if>
                                             <c:if test="${user.picture == null}">
-                                                <span>
-                                                   <svg width="17" height="21" viewBox="0 0 17 21" fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                      <circle cx="8.57894" cy="5.77803" r="4.77803"
-                                                              stroke="currentColor"
-                                                              stroke-width="1.5" stroke-linecap="round"
-                                                              stroke-linejoin="round"/>
-                                                      <path fill-rule="evenodd" clip-rule="evenodd"
-                                                            d="M1.00002 17.2014C0.998732 16.8655 1.07385 16.5337 1.2197 16.2311C1.67736 15.3158 2.96798 14.8307 4.03892 14.611C4.81128 14.4462 5.59431 14.336 6.38217 14.2815C7.84084 14.1533 9.30793 14.1533 10.7666 14.2815C11.5544 14.3367 12.3374 14.4468 13.1099 14.611C14.1808 14.8307 15.4714 15.27 15.9291 16.2311C16.2224 16.8479 16.2224 17.564 15.9291 18.1808C15.4714 19.1419 14.1808 19.5812 13.1099 19.7918C12.3384 19.9634 11.5551 20.0766 10.7666 20.1304C9.57937 20.2311 8.38659 20.2494 7.19681 20.1854C6.92221 20.1854 6.65677 20.1854 6.38217 20.1304C5.59663 20.0773 4.81632 19.9641 4.04807 19.7918C2.96798 19.5812 1.68652 19.1419 1.2197 18.1808C1.0746 17.8747 0.999552 17.5401 1.00002 17.2014Z"
-                                                            stroke="currentColor" stroke-width="1.5"
-                                                            stroke-linecap="round"
-                                                            stroke-linejoin="round"/>
-                                                   </svg>
-                                                </span>
+                                                <img id="profile-header" alt="" height="50"
+                                                     style="clip-path: circle(); margin-right: 10px"/>
+                                                <script>
+                                                    document.getElementById("profile-header").src = new ProfileImage('${user.firstName} ${user.lastName}').png();
+                                                </script>
                                             </c:if>
                                         </div>
                                         <div class="tp-header-login-content d-none d-xl-block">
@@ -289,7 +280,7 @@
                                 <nav class="tp-category-menu-content">
                                     <ul>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="16" height="17" viewBox="0 0 16 17" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -301,7 +292,7 @@
                                                 New Arrivals</a>
                                         </li>
                                         <li class="has-dropdown">
-                                            <a href="shop.html" class="has-mega-menu">
+                                            <a href="${BASE_URL}products" class="has-mega-menu">
                                          <span>
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -320,60 +311,60 @@
 
                                             <ul class="mega-menu tp-submenu">
                                                 <li>
-                                                    <a href="shop.html" class="mega-menu-title">Featured</a>
+                                                    <a href="${BASE_URL}products" class="mega-menu-title">Featured</a>
                                                     <ul>
                                                         <li>
-                                                            <a href="shop.html"><img
+                                                            <a href="${BASE_URL}products"><img
                                                                     src="${BASE_URL}assets/img/header/menu/menu-1.jpg"
                                                                     alt=""></a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">New Arrivals</a>
+                                                            <a href="${BASE_URL}products">New Arrivals</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Best Seller</a>
+                                                            <a href="${BASE_URL}products">Best Seller</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Top Rated</a>
+                                                            <a href="${BASE_URL}products">Top Rated</a>
                                                         </li>
                                                     </ul>
                                                 </li>
 
                                                 <li>
-                                                    <a href="shop.html" class="mega-menu-title">Computer & Laptops</a>
+                                                    <a href="${BASE_URL}products" class="mega-menu-title">Computer & Laptops</a>
                                                     <ul>
                                                         <li>
-                                                            <a href="shop.html"><img
+                                                            <a href="${BASE_URL}products"><img
                                                                     src="${BASE_URL}assets/img/header/menu/menu-2.jpg"
                                                                     alt=""></a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Top Brands</a>
+                                                            <a href="${BASE_URL}products">Top Brands</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Weekly Best Selling</a>
+                                                            <a href="${BASE_URL}products">Weekly Best Selling</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Most Viewed</a>
+                                                            <a href="${BASE_URL}products">Most Viewed</a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                                 <li>
-                                                    <a href="shop.html" class="mega-menu-title">Accessories</a>
+                                                    <a href="${BASE_URL}products" class="mega-menu-title">Accessories</a>
                                                     <ul>
                                                         <li>
-                                                            <a href="shop.html"><img
+                                                            <a href="${BASE_URL}products"><img
                                                                     src="${BASE_URL}assets/img/header/menu/menu-3.jpg"
                                                                     alt=""></a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Headphones</a>
+                                                            <a href="${BASE_URL}products">Headphones</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">TWS Earphone</a>
+                                                            <a href="${BASE_URL}products">TWS Earphone</a>
                                                         </li>
                                                         <li>
-                                                            <a href="shop.html">Gaming Headset</a>
+                                                            <a href="${BASE_URL}products">Gaming Headset</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -381,7 +372,7 @@
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -402,7 +393,7 @@
                                                 Gifts</a>
                                         </li>
                                         <li class="has-dropdown">
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="17" height="16" viewBox="0 0 17 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -419,21 +410,21 @@
 
                                             <ul class="tp-submenu">
                                                 <li class="has-dropdown">
-                                                    <a href="shop.html">Desktop</a>
+                                                    <a href="${BASE_URL}products">Desktop</a>
                                                     <ul class="tp-submenu">
-                                                        <li><a href="shop.html">Gaming</a></li>
-                                                        <li><a href="shop.html">WorkSpace</a></li>
-                                                        <li><a href="shop.html">Customize</a></li>
-                                                        <li><a href="shop.html">Luxury</a></li>
+                                                        <li><a href="${BASE_URL}products">Gaming</a></li>
+                                                        <li><a href="${BASE_URL}products">WorkSpace</a></li>
+                                                        <li><a href="${BASE_URL}products">Customize</a></li>
+                                                        <li><a href="${BASE_URL}products">Luxury</a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="shop.html">Laptop</a></li>
-                                                <li><a href="shop.html">Console</a></li>
-                                                <li><a href="shop.html">Top Rated</a></li>
+                                                <li><a href="${BASE_URL}products">Laptop</a></li>
+                                                <li><a href="${BASE_URL}products">Console</a></li>
+                                                <li><a href="${BASE_URL}products">Top Rated</a></li>
                                             </ul>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="15" height="18" viewBox="0 0 15 18" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -447,7 +438,7 @@
                                                 Smartphones & Tablets</a>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -464,7 +455,7 @@
                                                 TV, Video & Musice</a>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="18" height="16" viewBox="0 0 18 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -483,7 +474,7 @@
                                                 Cameras</a>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -496,7 +487,7 @@
                                                 Cooking</a>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="18" height="16" viewBox="0 0 18 16" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -514,7 +505,7 @@
                                                 Accessories</a>
                                         </li>
                                         <li>
-                                            <a href="shop.html">
+                                            <a href="${BASE_URL}products">
                                          <span>
                                             <svg width="18" height="17" viewBox="0 0 18 17" fill="none"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -676,20 +667,20 @@
                                     </div>
                                 </li>
                                 <li class="has-dropdown has-mega-menu">
-                                    <a href="shop.html">Shop</a>
+                                    <a href="${BASE_URL}products">Shop</a>
                                     <div class="shop-mega-menu tp-submenu tp-mega-menu">
                                         <div class="row">
                                             <div class="col-lg-2">
                                                 <div class="shop-mega-menu-list">
-                                                    <a href="shop.html" class="shop-mega-menu-title">Shop Pages</a>
+                                                    <a href="${BASE_URL}products" class="shop-mega-menu-title">Shop Pages</a>
                                                     <ul>
                                                         <li><a href="shop-category.html">Grid Category</a></li>
-                                                        <li><a href="shop.html">Grid Layout</a></li>
+                                                        <li><a href="${BASE_URL}products">Grid Layout</a></li>
                                                         <li><a href="shop-list.html">List Layout</a></li>
                                                         <li><a href="shop-masonary.html">Masonary Layout</a></li>
                                                         <li><a href="shop-full-width.html">Full width Layout</a></li>
                                                         <li><a href="shop-1600.html">1600px Layout</a></li>
-                                                        <li><a href="shop.html">Left Sidebar</a></li>
+                                                        <li><a href="${BASE_URL}products">Left Sidebar</a></li>
                                                         <li><a href="shop-right-sidebar.html">Right Sidebar</a></li>
                                                         <li><a href="shop-no-sidebar.html">Hidden Sidebar</a></li>
                                                     </ul>
@@ -697,29 +688,29 @@
                                             </div>
                                             <div class="col-lg-2">
                                                 <div class="shop-mega-menu-list">
-                                                    <a href="shop.html" class="shop-mega-menu-title">Features</a>
+                                                    <a href="${BASE_URL}products" class="shop-mega-menu-title">Features</a>
                                                     <ul>
                                                         <li><a href="shop-filter-dropdown.html">Filter Dropdown</a></li>
                                                         <li><a href="shop-filter-offcanvas.html">Filters Offcanvas</a>
                                                         </li>
-                                                        <li><a href="shop.html">Filters Sidebar</a></li>
+                                                        <li><a href="${BASE_URL}products">Filters Sidebar</a></li>
                                                         <li><a href="shop-load-more.html">Load More button</a></li>
                                                         <li><a href="shop-infinite-scroll.html">Infinit scrolling</a>
                                                         </li>
                                                         <li><a href="shop-list.html">Collections list</a></li>
-                                                        <li><a href="shop.html">Hidden search</a></li>
-                                                        <li><a href="shop.html">Search Full screen</a></li>
+                                                        <li><a href="${BASE_URL}products">Hidden search</a></li>
+                                                        <li><a href="${BASE_URL}products">Search Full screen</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="col-lg-2">
                                                 <div class="shop-mega-menu-list">
-                                                    <a href="shop.html" class="shop-mega-menu-title">Hover Style</a>
+                                                    <a href="${BASE_URL}products" class="shop-mega-menu-title">Hover Style</a>
                                                     <ul>
-                                                        <li><a href="shop.html">Hover Style 1</a></li>
-                                                        <li><a href="shop.html">Hover Style 2</a></li>
-                                                        <li><a href="shop.html">Hover Style 3</a></li>
-                                                        <li><a href="shop.html">Hover Style 4</a></li>
+                                                        <li><a href="${BASE_URL}products">Hover Style 1</a></li>
+                                                        <li><a href="${BASE_URL}products">Hover Style 2</a></li>
+                                                        <li><a href="${BASE_URL}products">Hover Style 3</a></li>
+                                                        <li><a href="${BASE_URL}products">Hover Style 4</a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -748,28 +739,28 @@
                                 </li>
                                 <li class="has-dropdown has-mega-menu ">
 
-                                    <a href="shop.html">Products</a>
+                                    <a href="${BASE_URL}products">Products</a>
                                     <ul class="tp-submenu tp-mega-menu mega-menu-style-2">
                                         <!-- first col -->
                                         <li class="has-dropdown">
-                                            <a href="shop.html" class="mega-menu-title">Shop Page</a>
+                                            <a href="${BASE_URL}products" class="mega-menu-title">Shop Page</a>
                                             <ul class="tp-submenu">
                                                 <li><a href="shop-category.html">Only Categories</a></li>
                                                 <li><a href="shop-filter-offcanvas.html">Shop Grid</a></li>
-                                                <li><a href="shop.html">Shop Grid with Sideber</a></li>
+                                                <li><a href="${BASE_URL}products">Shop Grid with Sideber</a></li>
                                                 <li><a href="shop-list.html">Shop List</a></li>
                                                 <li><a href="shop-category.html">Categories</a></li>
-                                                <li><a href="product-details.html">Product Details</a></li>
+                                                <li><a href="#">Product Details</a></li>
                                                 <li><a href="product-details-progress.html">Product Details Progress</a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <!-- third col -->
                                         <li class="has-dropdown">
-                                            <a href="product-details.html" class="mega-menu-title">Products</a>
+                                            <a href="#" class="mega-menu-title">Products</a>
                                             <ul class="tp-submenu">
 
-                                                <li><a href="product-details.html">Product Simple</a></li>
+                                                <li><a href="#">Product Simple</a></li>
                                                 <li><a href="product-details-video.html">With Video</a></li>
                                                 <li><a href="product-details-countdown.html">With Countdown Timer</a>
                                                 </li>
@@ -783,7 +774,7 @@
                                         </li>
                                         <!-- third col -->
                                         <li class="has-dropdown">
-                                            <a href="shop.html" class="mega-menu-title">eCommerce</a>
+                                            <a href="${BASE_URL}products" class="mega-menu-title">eCommerce</a>
                                             <ul class="tp-submenu">
                                                 <li><a href="cart.html">Shopping Cart</a></li>
                                                 <li><a href="order.html">Track Your Order</a></li>
@@ -795,7 +786,7 @@
 
                                         <!-- second col -->
                                         <li class="has-dropdown">
-                                            <a href="shop.html" class="mega-menu-title">More Pages</a>
+                                            <a href="${BASE_URL}products" class="mega-menu-title">More Pages</a>
                                             <ul class="tp-submenu">
 
 

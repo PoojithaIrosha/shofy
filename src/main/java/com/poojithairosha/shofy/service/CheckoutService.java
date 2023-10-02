@@ -565,7 +565,7 @@ public class CheckoutService {
             ProductColors productColors = session.createQuery("from ProductColors c where c.id=:id", ProductColors.class).setParameter("id", color).uniqueResult();
 
             Cart cart = new Cart();
-            cart.setTotal(productById.getPrice());
+            cart.setTotal(productById.getPrice() * qty);
             cart.setCartItems(List.of(new CartItem(productById, qty, productColors, cart)));
             cart.setUser(user);
 

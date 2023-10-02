@@ -11,6 +11,12 @@
 %>
 
 <layout:extends name="base">
+
+
+    <layout:put block="title" type="REPLACE">
+        <title>Products - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content" type="REPLACE">
         <!-- breadcrumb area start -->
         <section class="breadcrumb__area include-bg pt-100 pb-50">
@@ -66,7 +72,7 @@
                                     <div class="tp-shop-widget-product">
                                         <div class="tp-shop-widget-product-item d-flex align-items-center">
                                             <div class="tp-shop-widget-product-thumb">
-                                                <a href="product-details.html">
+                                                <a href="#">
                                                     <img src="${BASE_URL}assets/img/product/shop/sm/shop-sm-1.jpg"
                                                          alt="">
                                                 </a>
@@ -115,7 +121,7 @@
                                                     </div>
                                                 </div>
                                                 <h4 class="tp-shop-widget-product-title">
-                                                    <a href="product-details.html">Smart watches wood...</a>
+                                                    <a href="#">Smart watches wood...</a>
                                                 </h4>
                                                 <div class="tp-shop-widget-product-price-wrapper">
                                                     <span class="tp-shop-widget-product-price">$150.00</span>
@@ -124,7 +130,7 @@
                                         </div>
                                         <div class="tp-shop-widget-product-item d-flex align-items-center">
                                             <div class="tp-shop-widget-product-thumb">
-                                                <a href="product-details.html">
+                                                <a href="#">
                                                     <img src="${BASE_URL}assets/img/product/shop/sm/shop-sm-2.jpg"
                                                          alt="">
                                                 </a>
@@ -173,7 +179,7 @@
                                                     </div>
                                                 </div>
                                                 <h4 class="tp-shop-widget-product-title">
-                                                    <a href="product-details.html">Decoration for panda.</a>
+                                                    <a href="#">Decoration for panda.</a>
                                                 </h4>
                                                 <div class="tp-shop-widget-product-price-wrapper">
                                                     <span class="tp-shop-widget-product-price">$120.00</span>
@@ -182,7 +188,7 @@
                                         </div>
                                         <div class="tp-shop-widget-product-item d-flex align-items-center">
                                             <div class="tp-shop-widget-product-thumb">
-                                                <a href="product-details.html">
+                                                <a href="#">
                                                     <img src="${BASE_URL}assets/img/product/shop/sm/shop-sm-3.jpg"
                                                          alt="">
                                                 </a>
@@ -231,7 +237,7 @@
                                                     </div>
                                                 </div>
                                                 <h4 class="tp-shop-widget-product-title">
-                                                    <a href="product-details.html">Trending Watch for Man</a>
+                                                    <a href="#">Trending Watch for Man</a>
                                                 </h4>
                                                 <div class="tp-shop-widget-product-price-wrapper">
                                                     <span class="tp-shop-widget-product-price">$99.00</span>
@@ -240,7 +246,7 @@
                                         </div>
                                         <div class="tp-shop-widget-product-item d-flex align-items-center">
                                             <div class="tp-shop-widget-product-thumb">
-                                                <a href="product-details.html">
+                                                <a href="#">
                                                     <img src="${BASE_URL}assets/img/product/shop/sm/shop-sm-4.jpg"
                                                          alt="">
                                                 </a>
@@ -289,7 +295,7 @@
                                                     </div>
                                                 </div>
                                                 <h4 class="tp-shop-widget-product-title">
-                                                    <a href="product-details.html">Minimal Backpack.</a>
+                                                    <a href="#">Minimal Backpack.</a>
                                                 </h4>
                                                 <div class="tp-shop-widget-product-price-wrapper">
                                                     <span class="tp-shop-widget-product-price">$165.00</span>
@@ -491,7 +497,7 @@
                                 </div>
                             </div>
                             <div class="infinite-pagination d-none">
-                                <a href="shop.html" class="infinite-next-link">Next</a>
+                                <a href="${BASE_URL}products" class="infinite-next-link">Next</a>
                             </div>
                             <div class="tp-shop-pagination mt-20">
                                 <div class="tp-pagination">

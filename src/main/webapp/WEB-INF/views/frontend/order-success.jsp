@@ -4,9 +4,13 @@
 
 <layout:extends name="base">
 
+
+    <layout:put block="title" type="REPLACE">
+        <title>Order - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
         <jsp:useBean id="it" scope="request" type="com.poojithairosha.shofy.model.order.Order"/>
-
 
         <!-- breadcrumb area start -->
         <section class="breadcrumb__area include-bg pt-95 pb-90">

@@ -1,6 +1,12 @@
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>Admin Login - Shofy</title>
+    </layout:put>
+
+
     <layout:put block="main-content" type="REPLACE">
         <div class="container-xxl">
             <div class="authentication-wrapper authentication-basic container-p-y">

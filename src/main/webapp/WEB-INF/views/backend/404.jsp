@@ -1,6 +1,12 @@
 <%@taglib prefix="layout" uri="http://callidora.lk/jsp/template-inheritance" %>
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>404 Page Not Found - Shofy</title>
+    </layout:put>
+
+
     <layout:put block="main-content">
             <!-- Error -->
             <div class="container-xxl container-p-y d-flex justify-content-center vh-100 align-items-center">

@@ -3,6 +3,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <layout:extends name="admin-base">
+
+    <layout:put block="title" type="REPLACE">
+        <title>Product Management - Shofy</title>
+    </layout:put>
+
     <layout:put block="main-content">
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
@@ -28,7 +33,17 @@
                             </div>
                             <!-- Basic Bootstrap Table -->
                             <div class="card">
-                                <h5 class="card-header">Product List</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-header">Product List</h5>
+                                    <div class="me-3">
+                                        <form>
+                                            <input type="hidden" name="page" value="${(it.get("page"))}">
+                                            <input type="text" class="form-control" placeholder="Search..."
+                                                   name="search" value="${(it.get("search"))}">
+                                        </form>
+                                    </div>
+                                </div>
+
                                 <div class="table-responsive text-nowrap">
                                     <table class="table">
                                         <thead>
@@ -76,7 +91,9 @@
                                                             <a class="dropdown-item"
                                                                href="${BASE_URL}admin/products/edit/${product.id}"
                                                             ><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                                                            <a class="dropdown-item" href="${BASE_URL}products/${product.id}" target="_blank"><i class="bx bxs-log-in-circle me-1"></i> View</a>
+                                                            <a class="dropdown-item"
+                                                               href="${BASE_URL}products/${product.id}" target="_blank"><i
+                                                                    class="bx bxs-log-in-circle me-1"></i> View</a>
                                                         </div>
                                                     </div>
                                                 </td>
