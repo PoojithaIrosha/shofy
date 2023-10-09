@@ -1,6 +1,7 @@
 package com.poojithairosha.shofy.util;
 
 import com.poojithairosha.shofy.model.user.User;
+import io.fusionauth.jwt.JWTExpiredException;
 import io.fusionauth.jwt.Signer;
 import io.fusionauth.jwt.Verifier;
 import io.fusionauth.jwt.domain.JWT;
@@ -18,7 +19,7 @@ public class JwtTokenUtil {
     private static final String CLAIM_KEY_CREATED = "created";
     private static final String ISSUER = "www.shofy.com";
     private static final String SECRET = ",4zaB?V{ev@J%ALj]Y%+0V4h[-XxZL[&+=qK)aNC+Z1kr57R,UiCd,ZHp9FD(]TQ";
-    private static final Long EXPIRATION_MINUTES = 60L;
+    private static final Long EXPIRATION_MINUTES = 1L; // TODO: change this to 30L
     private static final Long REFRESH_TOKEN_EXPIRATION_MINUTES = 43200L;
 
     private String generateToken(String subject, Map<String, String> claims, Long expiration) {
@@ -76,8 +77,12 @@ public class JwtTokenUtil {
     }
 
     public boolean validateToken(String token, User userDetails) {
-        String username = getUsername(token);
-        return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
+        try {
+            String username = getUsername(token);
+            return (username.equals(userDetails.getEmail()) && !isTokenExpired(token));
+        }catch (JWTExpiredException ex) {
+            return false;
+        }
     }
 
     public String generateAccessToken(User user) {

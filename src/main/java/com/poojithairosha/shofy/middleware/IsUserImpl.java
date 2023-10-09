@@ -59,10 +59,17 @@ public class IsUserImpl implements ContainerRequestFilter {
 
 
     public boolean validateRqHeaderToken(String token) {
+        System.out.println(token);
         try {
             User user = userService.getUserByEmail(jwtTokenUtil.getUsername(token));
             return jwtTokenUtil.validateToken(token, user) && (user.getUserType() == UserType.USER_LOCAL || user.getUserType() == UserType.USER_GOOGLE);
-        } catch (Exception ex) {
+        } catch (JWTExpiredException ex) {
+            ex.printStackTrace();
+            User user = (User) request.getSession().getAttribute("user");
+            String accessToken = jwtTokenUtil.generateAccessToken(user);
+            request.getSession().setAttribute("access_token", accessToken);
+            return true;
+        } catch (Exception e) {
             throw new CustomException(Response.Status.UNAUTHORIZED, "You need to login first");
         }
     }

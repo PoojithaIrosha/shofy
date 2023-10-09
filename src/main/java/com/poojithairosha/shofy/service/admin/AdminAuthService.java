@@ -63,7 +63,7 @@ public class AdminAuthService {
         String refreshToken = jwtTokenUtil.generateRefreshToken(user);
         Date expDate = jwtTokenUtil.getExpireDate(accessToken);
 
-        return new LoginRespDTO(accessToken, refreshToken, expDate.toString());
+        return new LoginRespDTO(accessToken, refreshToken, String.valueOf(expDate.getTime()));
     }
 
     public String logout() {

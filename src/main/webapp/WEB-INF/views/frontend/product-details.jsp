@@ -168,6 +168,7 @@
                                     <button class="tp-product-details-buy-now-btn w-100"
                                             onclick="buyNowCheckout('${it.get("product").id}');">Buy Now
                                     </button>
+                                    <button onclick="test()">Test</button>
                                 </div>
                                 <div class="tp-product-details-action-sm">
                                     <button type="button" class="tp-product-details-action-sm-btn">

@@ -1,3 +1,64 @@
+/* ====================
+   Secure Fetch
+   ==================== */
+function secureFetch(url, options) {
+    const json = localStorage.getItem("user");
+
+    if (json) {
+        const user = JSON.parse(json);
+        const expiresIn = new Date(parseInt(user.expiresIn)).getTime();
+        const now = new Date().getTime();
+
+        if (now > expiresIn) {
+            return refreshToken().then(token => {
+                options.headers = {
+                    ...options.headers, "Authorization": "Bearer " + token,
+                }
+                return fetch(url, options);
+            });
+        } else {
+            options.headers = {
+                ...options.headers, "Authorization": "Bearer " + user.accessToken,
+            };
+            return fetch(url, options);
+        }
+
+    }
+}
+
+/* ====================
+   Refresh Token
+   ==================== */
+function refreshToken() {
+    const json = localStorage.getItem("user");
+
+    if (json) {
+        const user = JSON.parse(json);
+        const refreshToken = user.refreshToken;
+
+        const params = new FormData();
+        params.append("refreshToken", refreshToken);
+
+        return fetch(`${BASE_URL}auth/refresh-token`, {
+            method: "POST", body: params
+        }).then(resp => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                return Promise.reject(resp.text());
+            }
+        }).then(data => {
+            localStorage.setItem("user", JSON.stringify(data));
+            return data.accessToken;
+        }).catch(err => {
+            window.location.href = `${BASE_URL}auth/login`;
+        })
+    }
+}
+
+/* ====================
+   Show Toast
+   ==================== */
 function showToast(message, status) {
     new Audio(`${BASE_URL}assets/sounds/notificare.mp3`).play();
 
@@ -7,6 +68,9 @@ function showToast(message, status) {
     toastBootstrap.show();
 }
 
+/* ====================
+   Admin Login
+   ==================== */
 function login() {
 
     const email = document.getElementById("email").value;
@@ -42,6 +106,9 @@ function login() {
     }
 }
 
+/* ====================
+   Add Product
+   ==================== */
 function addProduct() {
     const name = document.getElementById("name");
     const price = document.getElementById("price");
@@ -79,11 +146,8 @@ function addProduct() {
             form.append("images", images.files[i]);
         }
 
-        fetch(`${BASE_URL}admin/products/add`, {
+        secureFetch(`${BASE_URL}admin/products/add`, {
             method: "POST",
-            headers: {
-                "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`
-            },
             body: form
         }).then(resp => {
             if (resp.ok) {
@@ -105,6 +169,9 @@ function addProduct() {
     }
 }
 
+/* ====================
+   Update Product
+   ==================== */
 function updateProduct(id) {
     const name = document.getElementById("name");
     const price = document.getElementById("price");
@@ -128,11 +195,8 @@ function updateProduct(id) {
         form.append("images", images.files[i]);
     }
 
-    fetch(`${BASE_URL}admin/products/edit/${id}`, {
+    secureFetch(`${BASE_URL}admin/products/edit/${id}`, {
         method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${JSON.parse(localStorage.getItem("user")).accessToken}`
-        },
         body: form
     }).then(resp => {
         if (resp.ok) {
@@ -153,12 +217,15 @@ function updateProduct(id) {
     });
 }
 
+/* ====================
+   Change User Status
+   ==================== */
 function changeUserStatus(userId) {
 
     const form = new FormData();
     form.append("userId", userId);
 
-    fetch(`${BASE_URL}admin/users/update-status`, {
+    secureFetch(`${BASE_URL}admin/users/update-status`, {
         method: "PATCH",
         body: form
     }).then(resp => resp.text()).then(data => {

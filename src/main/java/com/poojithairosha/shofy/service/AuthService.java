@@ -79,7 +79,7 @@ public class AuthService {
         String refreshToken = jwtTokenUtil.generateRefreshToken(user);
         Date expDate = jwtTokenUtil.getExpireDate(accessToken);
 
-        return new LoginRespDTO(accessToken, refreshToken, expDate.toString());
+        return new LoginRespDTO(accessToken, refreshToken, String.valueOf(expDate.getTime()));
     }
 
     public LoginRespDTO saveGoogleUser(String token) {
@@ -127,7 +127,7 @@ public class AuthService {
         } else {
             if (user.getUserType() == UserType.USER_GOOGLE) {
 
-                if(!user.isActive()) {
+                if (!user.isActive()) {
                     throw new CustomException(Response.Status.BAD_REQUEST, "Your account has been disabled temporary");
                 }
 
@@ -137,12 +137,12 @@ public class AuthService {
                 user.setGoogleId(jwt.getString("sub"));
                 user.setPicture(picture);
 
-                try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+                try (Session session = HibernateUtil.getSessionFactory().openSession()) {
                     session.beginTransaction();
                     session.merge(user);
                     session.refresh(user);
                     session.getTransaction().commit();
-                }catch (Exception e) {
+                } catch (Exception e) {
                     throw new CustomException(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
                 }
 
@@ -169,7 +169,7 @@ public class AuthService {
             if (user != null && user.getUserType() == UserType.USER_LOCAL) {
                 if (Encryption.verifyPassword(password, user.getPassword())) {
                     if (user.getEmailVerifiedAt() != null) {
-                        if(!user.isActive()) {
+                        if (!user.isActive()) {
                             throw new CustomException(Response.Status.BAD_REQUEST, "Your account has been disabled temporary");
                         }
                         LoginRespDTO loginRespDTO = getLoginRespDTO(user);
@@ -299,14 +299,22 @@ public class AuthService {
     }
 
     public LoginRespDTO refreshToken(String refreshToken) {
-        User user = userService.getUserByEmail(jwtTokenUtil.getUsername(refreshToken));
+        if (refreshToken != null) {
+            User user = userService.getUserByEmail(jwtTokenUtil.getUsername(refreshToken));
 
-        if (!jwtTokenUtil.validateToken(refreshToken, user)) {
-            throw new CustomException(Response.Status.UNAUTHORIZED, "Invalid refresh token");
-        } else {
-            String accessToken = jwtTokenUtil.generateAccessToken(user);
-            Date expireDate = jwtTokenUtil.getExpireDate(accessToken);
-            return new LoginRespDTO(accessToken, refreshToken, expireDate.toString());
+            if (user == null || !jwtTokenUtil.validateToken(refreshToken, user)) {
+                throw new CustomException(Response.Status.UNAUTHORIZED, "Invalid refresh token");
+            } else {
+                String accessToken = jwtTokenUtil.generateAccessToken(user);
+                Date expireDate = jwtTokenUtil.getExpireDate(accessToken);
+
+                request.getSession().setAttribute("access_token", accessToken);
+                request.getSession().setAttribute("user", user);
+
+                return new LoginRespDTO(accessToken, refreshToken, String.valueOf(expireDate.getTime()));
+            }
+        }else {
+            throw new CustomException(Response.Status.BAD_REQUEST, "Refresh token not found");
         }
     }
 }

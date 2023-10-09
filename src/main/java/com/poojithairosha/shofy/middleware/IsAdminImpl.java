@@ -6,6 +6,7 @@ import com.poojithairosha.shofy.model.user.User;
 import com.poojithairosha.shofy.model.user.UserType;
 import com.poojithairosha.shofy.service.UserService;
 import com.poojithairosha.shofy.util.JwtTokenUtil;
+import io.fusionauth.jwt.JWTExpiredException;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -59,7 +60,12 @@ public class IsAdminImpl implements ContainerRequestFilter {
         try {
             User user = userService.getUserByEmail(jwtTokenUtil.getUsername(token));
             return jwtTokenUtil.validateToken(token, user) && (user.getUserType() == UserType.ADMIN);
-        } catch (Exception ex) {
+        } catch (JWTExpiredException ex) {
+            User user = (User) request.getSession().getAttribute("user");
+            String accessToken = jwtTokenUtil.generateAccessToken(user);
+            request.getSession().setAttribute("access_token", accessToken);
+            return true;
+        }catch (Exception ex) {
             throw new CustomException(Response.Status.UNAUTHORIZED, "You need to login first");
         }
     }
