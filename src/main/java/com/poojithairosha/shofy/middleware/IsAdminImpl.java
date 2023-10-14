@@ -7,6 +7,7 @@ import com.poojithairosha.shofy.model.user.UserType;
 import com.poojithairosha.shofy.service.UserService;
 import com.poojithairosha.shofy.util.JwtTokenUtil;
 import io.fusionauth.jwt.JWTExpiredException;
+import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -18,8 +19,9 @@ import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 import java.net.URI;
 
-@Provider
 @IsAdmin
+@Provider
+@Priority(1)
 public class IsAdminImpl implements ContainerRequestFilter {
 
     @Inject
